@@ -1,0 +1,72 @@
+<div class="page-wrapper">
+  <div class="calendar-container">
+    <div class="calendar">
+      <div class="calendar-headline">
+        <div class="calendar-headline-month">
+          {{ firstDayOfActiveMonth().monthShort }}, {{ firstDayOfActiveMonth().year }}
+        </div>
+        <div class="calendar-headline-controls">
+          <div class="calendar-headline-control" (click)="goToPreviousMonth()">«</div>
+          <div class="calendar-headline-control calendar-headline-control-today" (click)="goToToday()">Today</div>
+          <div class="calendar-headline-control" (click)="goToNextMonth()">»</div>
+        </div>
+      </div>
+
+      <div class="calendar-weeks-grid">
+        <div class="calendar-weeks-grid-cell" *ngFor="let weekDay of weekDays()">
+          {{ weekDay }}
+        </div>
+      </div>
+
+      <div class="calendar-grid">
+        <div
+          *ngFor="let dayOfMonth of daysOfMonth()"
+          class="calendar-grid-cell"
+          [class.calendar-grid-cell-active]="activeDay()?.toISODate() === dayOfMonth.toISODate()"
+          [class.calendar-grid-cell-inactive]="dayOfMonth.month !== firstDayOfActiveMonth().month"
+          [class.calendar-grid-cell-has-task]="hasMeetings(dayOfMonth)"
+          [class.calendar-grid-cell-holiday]="isHoliday(dayOfMonth)"
+          [title]="getHolidayName(dayOfMonth) || ''"
+          (click)="onDayClick(dayOfMonth)"
+        >
+          <div class="calendar-grid-cell-date">
+            {{ dayOfMonth.day }}
+            <span *ngIf="isHoliday(dayOfMonth)"></span>
+          </div>
+            <div class="calendar-grid-cell-holiday-label" *ngIf="isHoliday(dayOfMonth)">
+              {{ getHolidayName(dayOfMonth) }}
+            </div>
+
+            <ul class="calendar-day-meetings" *ngIf="!isHoliday(dayOfMonth)">
+              <li *ngFor="let meeting of getMeetingsForDay(dayOfMonth)">
+                {{ meeting }}
+              </li>
+            </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="schedule">
+      <div class="schedule-headline">
+        <div *ngIf="activeDay(); else noSelection">
+          {{ activeDay()!.toLocaleString(DATE_MED) }}
+        </div>
+        <ng-template #noSelection>
+          <div>Please select a day</div>
+        </ng-template>
+      </div>
+
+      <div>
+        <div class="empty-state" *ngIf="activeDay() && activeDayMeetings().length === 0">
+          No Planned Tasks Today
+        </div>
+
+        <div *ngIf="activeDay() && activeDayMeetings().length > 0">
+          <div class="plan" *ngFor="let meetings of activeDayMeetings()">
+            {{ meetings }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

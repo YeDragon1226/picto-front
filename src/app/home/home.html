@@ -1,0 +1,68 @@
+<div class="announcement-wrapper">
+  <div class="top-bar">
+    <h2>Announcements</h2>
+  </div>
+
+  <div *ngIf="showNewForm" class="form-box">
+    <input [(ngModel)]="newTitle" placeholder="Title" class="input" />
+    <textarea [(ngModel)]="newMessage" placeholder="Message" class="textarea"></textarea>
+
+    <div class="picker">
+      <input [(ngModel)]="newDate" type="date" class="input" />
+      <select [(ngModel)]="newCategory" class="select">
+        <option value="">Select Category</option>
+        <option value="General">General</option>
+        <option value="Urgent">Urgent</option>
+        <option value="Update">Update</option>
+      </select>
+    </div>
+
+    <div class="form-footer">
+      <div class="pin-toggle">
+        <input type="checkbox" id="pin" [(ngModel)]="isPinned" />
+        <label for="pin">Pin this Announcement</label>
+      </div>
+      <div class="btn">
+        <button class="post-btn" (click)="addAnnouncement()">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+        <button class="cancel-btn" (click)="showNewForm = false">
+          <i class="fas fa-ban"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="!showNewForm">
+    <div class="filter-bar">
+      <input [(ngModel)]="searchTerm" placeholder="Search announcements..." class="input" />
+      <select [(ngModel)]="selectedCategory" class="select">
+        <option value="">All Categories</option>
+        <option value="General">General</option>
+        <option value="Urgent">Urgent</option>
+        <option value="Update">Update</option>
+      </select>
+      <div class="widget">
+        <span class="label">Today :</span>
+        <span class="value">{{ today }}</span>
+      </div>
+    </div>
+
+    <div class="card-container">
+      <div *ngFor="let a of filteredAnnouncements" class="card">
+        <div class="card-header">
+          <h3>
+            {{ a.title }}
+            <span *ngIf="a.pinned" title="Pinned">📌</span>
+          </h3>
+        </div>
+        <p>{{ a.message }}</p>
+        <small>{{ a.date }} — <i>{{ a.category }}</i></small>
+      </div>
+      <div class="card add-announcement-card" (click)="showNewForm = true">
+        <div class="add-icon">+</div>
+        <div class="add-label">Add Announcement</div>
+      </div>
+    </div>
+  </ng-container>
+</div>
