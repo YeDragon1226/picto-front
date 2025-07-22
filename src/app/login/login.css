@@ -1,6 +1,6 @@
 .login-wrapper {
-  height: 575px;
-  width: 100vw;
+  height:fit-content;
+  width: fit-content;
   background-image: url('/head.png');
   display: flex;
   overflow: hidden;
