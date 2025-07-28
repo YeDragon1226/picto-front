@@ -91,6 +91,6 @@ export class Home {
   this.newDate = '';
   this.isPinned = false;
   this.showNewForm = false;
-}
+  }
 
 }

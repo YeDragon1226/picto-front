@@ -42,6 +42,8 @@ export class Calendar implements OnInit {
       });
   });
 
+  footer = signal(false);
+
   DATE_MED = DateTime.DATE_MED;
 
   activeDayMeetings: Signal<string[]> = computed(() => {
@@ -86,6 +88,7 @@ export class Calendar implements OnInit {
 
   onDayClick(day: DateTime): void {
     this.activeDay.set(day);
+    this.footer.set(true);
   }
 
   refreshMeetings(): void {

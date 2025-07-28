@@ -156,9 +156,13 @@
 
 .task-table td:last-child {
   display: flex;
-  gap: 20px;
-  padding-top: 25px;
-  padding-left: 15px;
+  gap: 5px;
+  padding-left: 5px;
+}
+
+.task-table td i {
+  margin-top: 3px;
+  padding: 8px;
 }
 
 .new-task-form input:focus,

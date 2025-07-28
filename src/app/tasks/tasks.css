@@ -132,7 +132,11 @@
 .task-table td:nth-child(2),
 .task-table th:nth-child(2){
   width: 80px;
-  padding-left: 20px;
+}
+
+.task-table td:nth-child(2),
+.task-table td:nth-child(3) {
+  padding-left: 15px;
 }
 
 .task-table td:nth-child(3),

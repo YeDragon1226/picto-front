@@ -40,7 +40,7 @@
         <td><input [(ngModel)]="task.date" (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
         <td><input [(ngModel)]="task.department" (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
         <td><input [(ngModel)]="task.text" (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
-        <td><input (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
+        <td><input placeholder="Type here..." (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
         <td>
           <select [(ngModel)]="task.status" (blur)="autoSave()">
             <option value="Pending">Pending</option>
