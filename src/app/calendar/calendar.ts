@@ -114,4 +114,8 @@ export class Calendar implements OnInit {
     return this.data.holiday[key]?.[0] || null;
   }
 
+  getMeetingsCount(day: DateTime): number {
+    return this.getMeetingsForDay(day).length;
+  }
+
 }

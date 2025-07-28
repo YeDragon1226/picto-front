@@ -27,6 +27,7 @@
       <tr>
         <th>Date</th>
         <th>Department</th>
+        <th>Title</th>
         <th>Description</th>
         <th>Status</th>
       </tr>
@@ -36,6 +37,7 @@
       <tr *ngIf="showNewForm" class="highlight-row">
         <td><input [(ngModel)]="newTask.date" placeholder="YYYY-MM-DD" (blur)="addNewTask()" /></td>
         <td><input [(ngModel)]="newTask.department" placeholder="Department" (blur)="addNewTask()" /></td>
+        <td><input [(ngModel)]="newTask.text" placeholder="Title" (blur)="addNewTask()" /></td>
         <td><input [(ngModel)]="newTask.text" placeholder="Description" (blur)="addNewTask()" /></td>
         <td>
           <select [(ngModel)]="newTask.status" (blur)="addNewTask()">
@@ -49,7 +51,8 @@
       <tr *ngFor="let task of filteredTasks">
         <td>{{task.date}}</td>
         <td>{{task.department}}</td>
-        <td><input [(ngModel)]="task.text" (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
+        <td>{{task.text}}</td>
+        <td><input  (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
         <td>{{task.status}}</td>
       </tr>
     </tbody>

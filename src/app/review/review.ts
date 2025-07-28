@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { Data } from '../data/data';
 
 interface Task {
+  user: string;
   date: string;
   text: string;
   department?: string;
@@ -31,6 +32,7 @@ export class Review implements OnInit {
   allTasks: Task[] = [];
 
   newTask: Task = {
+    user: 'User 1',
     date: '',
     text: '',
     department: '',
@@ -61,6 +63,7 @@ export class Review implements OnInit {
         for (const text of texts) {
           const done = this.data.isCompleted(date, text);
           this.allTasks.push({
+            user: 'User 1',
             date,
             text,
             department: 'General',
@@ -78,6 +81,7 @@ export class Review implements OnInit {
 
     return this.allTasks.filter((task) => {
       const matchesSearch =
+        task.user.toLowerCase().includes(term) ||
         task.text.toLowerCase().includes(term) ||
         task.department?.toLowerCase().includes(term) ||
         task.status?.toLowerCase().includes(term) ||
@@ -104,6 +108,7 @@ export class Review implements OnInit {
 
   private resetNewTask(): void {
     this.newTask = {
+      user: 'User 1',
       date: '',
       text: '',
       department: '',

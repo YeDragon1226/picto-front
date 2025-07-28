@@ -79,7 +79,7 @@
 
 .task-table {
   width: 100%;
-  margin-top:20px;
+  margin-top: 10px;
   border-collapse: collapse;
   background-color: #fff;
   border: 1px solid #ddd;
@@ -115,28 +115,50 @@
 }
 
 .no-results {
-  margin-top: 20px;
+  position: absolute;
+  top: 30%;
+  left: 50%;
   text-align: center;
   font-style: italic;
   color: #888;
 }
 
 .task-table td:nth-child(1),
-.task-table th:nth-child(1),
+.task-table th:nth-child(1) {
+  width: 45px;
+}
+
 .task-table td:nth-child(2),
 .task-table th:nth-child(2) {
-  width: 100px;
+  width: 80px;
 }
 
 .task-table td:nth-child(3),
 .task-table th:nth-child(3) {
-  width: auto;
-  overflow: auto;
+  width: 70px;
 }
 
 .task-table td:nth-child(4),
 .task-table th:nth-child(4) {
-  width: 120px;
+  width: 260px;
+}
+
+.task-table td:nth-child(5),
+.task-table th:nth-child(5) {
+  width: auto;
+  overflow: auto;
+}
+
+.task-table td:nth-child(6),
+.task-table th:nth-child(6) {
+  width: 98px;
+}
+
+.task-table td:last-child {
+  display: flex;
+  gap: 20px;
+  padding-top: 25px;
+  padding-left: 15px;
 }
 
 .new-task-form input:focus,

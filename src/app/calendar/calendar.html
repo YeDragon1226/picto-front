@@ -63,7 +63,9 @@
 
         <div *ngIf="activeDay() && activeDayMeetings().length > 0">
           <div class="plan" *ngFor="let meetings of activeDayMeetings()">
-            {{ meetings }}
+            <span>Who: User 1</span><br>
+            <span>What: {{ meetings }}</span><br>
+            <span>Where: Department 2</span>
           </div>
         </div>
       </div>
