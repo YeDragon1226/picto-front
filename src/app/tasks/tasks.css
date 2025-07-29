@@ -16,7 +16,7 @@
   margin: 10px 0;
 }
 
-.right-controls {
+.controls {
   display: flex;
   justify-content: space-between;
   gap: 12px;
