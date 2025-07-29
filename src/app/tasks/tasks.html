@@ -17,9 +17,12 @@
         <option value="Completed">Completed</option>
       </select>
     </div>
+    <div></div>
+    <div class="filter">
       <button class="toggle-btn" (click)="showNewForm = !showNewForm ">
           <i [class]="showNewForm ? 'fas fa-times' : 'fas fa-plus'"></i>
       </button>
+    </div>
   </div>
 
   <table class="task-table" *ngIf="filteredTasks.length > 0 || showNewForm">
@@ -62,3 +65,4 @@
   <p>No tasks found for "<strong>{{ searchTerm || newCategory }}</strong>"</p>
 </div>
 
+</div>
