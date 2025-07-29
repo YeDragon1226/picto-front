@@ -125,19 +125,40 @@
 .task-table td:nth-child(1),
 .task-table th:nth-child(1),
 .task-table td:nth-child(2),
-.task-table th:nth-child(2) {
-  width: 100px;
+.task-table th:nth-child(2){
+  width: 80px;
+}
+
+.task-table td:nth-child(2),
+.task-table th:nth-child(2){
+  width: 80px;
+}
+
+.task-table td:nth-child(2),
+.task-table td:nth-child(3) {
+  padding-left: 15px;
 }
 
 .task-table td:nth-child(3),
 .task-table th:nth-child(3) {
-  width: auto;
-  overflow: auto;
+  width: 250px;
 }
 
 .task-table td:nth-child(4),
 .task-table th:nth-child(4) {
-  width: 120px;
+  width: auto;
+  overflow: auto;
+  padding-left: 10px;
+}
+
+.task-table td:nth-child(4) {
+  padding: 3px 10px 10px -4px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.task-table td:nth-child(5),
+.task-table th:nth-child(5) {
+  width: 100px;
 }
 
 .new-task-form input:focus,

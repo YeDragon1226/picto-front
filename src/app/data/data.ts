@@ -47,7 +47,6 @@ export class Data {
     '02-25': ['EDSA People Power Revolution Anniversary'],
   };
 
-
   completedTasks: Record<string, string> = {};
 
   constructor() {

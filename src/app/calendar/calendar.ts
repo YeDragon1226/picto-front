@@ -42,6 +42,8 @@ export class Calendar implements OnInit {
       });
   });
 
+  footer = signal(false);
+
   DATE_MED = DateTime.DATE_MED;
 
   activeDayMeetings: Signal<string[]> = computed(() => {
@@ -67,13 +69,13 @@ export class Calendar implements OnInit {
 
   goToPreviousMonth(): void {
     this.firstDayOfActiveMonth.set(
-      this.firstDayOfActiveMonth().minus({ month: 1 })
+    this.firstDayOfActiveMonth().minus({ month: 1 })
     );
   }
 
   goToNextMonth(): void {
     this.firstDayOfActiveMonth.set(
-      this.firstDayOfActiveMonth().plus({ month: 1 })
+    this.firstDayOfActiveMonth().plus({ month: 1 })
     );
   }
 
@@ -86,6 +88,7 @@ export class Calendar implements OnInit {
 
   onDayClick(day: DateTime): void {
     this.activeDay.set(day);
+    this.footer.set(true);
   }
 
   refreshMeetings(): void {
@@ -113,5 +116,4 @@ export class Calendar implements OnInit {
     const key = day.toFormat('MM-dd');
     return this.data.holiday[key]?.[0] || null;
   }
-
 }

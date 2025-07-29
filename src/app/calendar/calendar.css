@@ -153,7 +153,7 @@
   margin-top: 30px;
   margin-left: 20px;
   min-width: 250px;
-  animation: slideIn 0.4s ease-out;
+  animation: slideIn 0.2s ease-out;
 }
 
 .schedule-headline {
@@ -167,7 +167,12 @@
 }
 
 .plan {
-  padding-bottom: 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #f1f1f1;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+  margin-bottom: 25px;
+  padding: 10px;
 }
 
 .empty-state {
@@ -199,6 +204,26 @@
   text-align: left;
   max-height: 40px;
   overflow: hidden;
+}
+
+.footer {
+  margin-top: auto;
+  padding-top: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.footer i {
+  position: absolute;
+  background:#2196f3;
+  border-radius: 99px;
+  padding: 10px;
+  color: white;
+}
+
+.footer:hover i {
+  background: grey;
+  color: black;
 }
 
 @keyframes slideIn {

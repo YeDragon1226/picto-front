@@ -13,6 +13,7 @@ interface Task {
   date: string;
   text: string;
   department?: string;
+  title?:string;
   status?: string;
   done: boolean;
 }
@@ -33,6 +34,7 @@ export class Tasks implements OnInit {
   newTask: Task = {
     date: '',
     text: '',
+    title: '',
     department: '',
     status: 'Pending',
     done: false,
@@ -106,6 +108,7 @@ export class Tasks implements OnInit {
     this.newTask = {
       date: '',
       text: '',
+      title:'',
       department: '',
       status: 'Pending',
       done: false,

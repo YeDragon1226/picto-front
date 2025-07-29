@@ -1,55 +1,46 @@
 <div class="tasks-wrapper">
+
     <div class="top-bar">
       <h2>Review</h2>
     </div>
-  <div class="right-controls">
-    <div class="filter">
-      <input
-        type="text"
-        [(ngModel)]="searchTerm"
-        placeholder="Search"
-        class="search-bar"
-      />
-      <select [(ngModel)]="newCategory" class="select">
-        <option value="">All Category</option>
-        <option value="Pending">Pending</option>
-        <option value="In Progress">In Progress</option>
-        <option value="Completed">Completed</option>
-      </select>
-    </div>
-      <button class="toggle-btn" (click)="showNewForm = !showNewForm ">
-          <i [class]="showNewForm ? 'fas fa-times' : 'fas fa-plus'"></i>
-      </button>
-  </div>
+
+    <div class="right-controls">
+      <div class="filter">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Search"
+          class="search-bar"
+        />
+        <select [(ngModel)]="newCategory" class="select">
+          <option value="">All Category</option>
+          <option value="Pending">Pending</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
 
   <table class="task-table" *ngIf="filteredTasks.length > 0 || showNewForm">
+
     <thead>
       <tr>
+        <th>Name</th>
         <th>Date</th>
         <th>Department</th>
+        <th>Title</th>
         <th>Description</th>
         <th>Status</th>
+        <th>Actions</th>
       </tr>
     </thead>
+
     <tbody>
-
-      <tr *ngIf="showNewForm" class="highlight-row">
-        <td><input [(ngModel)]="newTask.date" placeholder="YYYY-MM-DD" (blur)="addNewTask()" /></td>
-        <td><input [(ngModel)]="newTask.department" placeholder="Department" (blur)="addNewTask()" /></td>
-        <td><input [(ngModel)]="newTask.text" placeholder="Description" (blur)="addNewTask()" /></td>
-        <td>
-          <select [(ngModel)]="newTask.status" (blur)="addNewTask()">
-            <option value="Pending">Pending</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Completed">Completed</option>
-          </select>
-        </td>
-      </tr>
-
       <tr *ngFor="let task of filteredTasks">
+        <td><input [(ngModel)]="task.user" (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
         <td><input [(ngModel)]="task.date" (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
         <td><input [(ngModel)]="task.department" (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
         <td><input [(ngModel)]="task.text" (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
+        <td><input placeholder="Type here..." (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
         <td>
           <select [(ngModel)]="task.status" (blur)="autoSave()">
             <option value="Pending">Pending</option>
@@ -57,8 +48,13 @@
             <option value="Completed">Completed</option>
           </select>
         </td>
+        <td>
+          <i class="fas fa-check"></i>
+          <i class="fas fa-x"></i>
+        </td>
       </tr>
     </tbody>
+
   </table>
 
 <div class="no-results" *ngIf="filteredTasks.length === 0 && (searchTerm || newCategory)">

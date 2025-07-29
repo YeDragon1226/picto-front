@@ -23,21 +23,21 @@ export class Home {
     {
       title: 'System Update',
       message: 'Scheduled maintenance at 10 PM. The system will be unavailable for about 2 hours. Please save your work and log off before that time to avoid any data loss.',
-      date: '2025-07-22',
+      date: '2025-07-29',
       category: 'Update',
       pinned: false
     },
     {
       title: 'New Feature',
       message: 'Task pinning is now available. You can pin important announcements so they appear at the top.',
-      date: '2025-07-22',
+      date: '2025-07-29',
       category: 'General',
       pinned: true
     },
     {
       title: 'New Feature',
       message: 'Task pinning is now available. You can pin important announcements so they appear at the top.',
-      date: '2025-07-23',
+      date: '2025-07-30',
       category: 'General',
       pinned: true
     }
@@ -91,6 +91,6 @@ export class Home {
   this.newDate = '';
   this.isPinned = false;
   this.showNewForm = false;
-}
+  }
 
 }
