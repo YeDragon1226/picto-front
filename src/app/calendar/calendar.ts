@@ -69,13 +69,13 @@ export class Calendar implements OnInit {
 
   goToPreviousMonth(): void {
     this.firstDayOfActiveMonth.set(
-      this.firstDayOfActiveMonth().minus({ month: 1 })
+    this.firstDayOfActiveMonth().minus({ month: 1 })
     );
   }
 
   goToNextMonth(): void {
     this.firstDayOfActiveMonth.set(
-      this.firstDayOfActiveMonth().plus({ month: 1 })
+    this.firstDayOfActiveMonth().plus({ month: 1 })
     );
   }
 
@@ -116,9 +116,4 @@ export class Calendar implements OnInit {
     const key = day.toFormat('MM-dd');
     return this.data.holiday[key]?.[0] || null;
   }
-
-  getMeetingsCount(day: DateTime): number {
-    return this.getMeetingsForDay(day).length;
-  }
-
 }
