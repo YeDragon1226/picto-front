@@ -4,20 +4,20 @@
       <h2>Review</h2>
     </div>
 
-      <div class="filter">
-        <input
-          type="text"
-          [(ngModel)]="searchTerm"
-          placeholder="Search"
-          class="search-bar"
-        />
-        <select [(ngModel)]="newCategory" class="select">
-          <option value="">All Category</option>
-          <option value="Pending">Pending</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Completed">Completed</option>
-        </select>
-      </div>
+    <div class="filter">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        placeholder="Search"
+        class="search-bar"
+      />
+      <select [(ngModel)]="newCategory" class="select">
+        <option value="">All Category</option>
+        <option value="Pending">Pending</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Completed">Completed</option>
+      </select>
+    </div>
 
   @if (filteredTasks.length > 0 || showNewForm) {
     <table class="task-table">
@@ -57,10 +57,11 @@
       </tbody>
     </table>
   }
+
   @if (filteredTasks.length === 0 && (searchTerm || newCategory)) {
     <div class="no-results">
       <p>No tasks found for "<strong>{{ searchTerm || newCategory }}</strong>"</p>
     </div>
   }
-
+</div>
 
