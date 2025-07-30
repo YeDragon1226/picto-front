@@ -19,44 +19,48 @@
         </select>
       </div>
 
-  <table class="task-table" *ngIf="filteredTasks.length > 0 || showNewForm">
+  @if (filteredTasks.length > 0 || showNewForm) {
+    <table class="task-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Date</th>
+          <th>Department</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
 
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Date</th>
-        <th>Department</th>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
+      <tbody>
+        @for (task of filteredTasks; track task) {
+          <tr>
+            <td><input [(ngModel)]="task.user" (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
+            <td><input [(ngModel)]="task.date" (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
+            <td><input [(ngModel)]="task.department" (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
+            <td><input [(ngModel)]="task.text" (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
+            <td><input placeholder="Type here..." (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
+            <td>
+              <select [(ngModel)]="task.status" (blur)="autoSave()">
+                <option value="Pending">Pending</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </td>
+            <td>
+              <i class="fas fa-check"></i>
+              <i class="fas fa-x"></i>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+  @if (filteredTasks.length === 0 && (searchTerm || newCategory)) {
+    <div class="no-results">
+      <p>No tasks found for "<strong>{{ searchTerm || newCategory }}</strong>"</p>
+    </div>
+  }
 
-    <tbody>
-      <tr *ngFor="let task of filteredTasks">
-        <td><input [(ngModel)]="task.user" (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
-        <td><input [(ngModel)]="task.date" (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
-        <td><input [(ngModel)]="task.department" (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
-        <td><input [(ngModel)]="task.text" (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
-        <td><input placeholder="Type here..." (blur)="autoSave()" (keyup.enter)="autoSave()" /></td>
-        <td>
-          <select [(ngModel)]="task.status" (blur)="autoSave()">
-            <option value="Pending">Pending</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Completed">Completed</option>
-          </select>
-        </td>
-        <td>
-          <i class="fas fa-check"></i>
-          <i class="fas fa-x"></i>
-        </td>
-      </tr>
-    </tbody>
-
-  </table>
-
-<div class="no-results" *ngIf="filteredTasks.length === 0 && (searchTerm || newCategory)">
-  <p>No tasks found for "<strong>{{ searchTerm || newCategory }}</strong>"</p>
-</div>
 

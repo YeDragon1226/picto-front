@@ -1,67 +1,67 @@
-<ng-container *ngIf="!isLoginPage(); else loginOnly">
-<header class="header">
-  <div class="left-section">
-    <img src="picto-logo.png" class="logo" />
-    <h1 class="office-name">
-      Provincial Information and Communication Technology Office
-    </h1>
-  </div>
+@if (!isLoginPage()) {
+  <header class="header">
+    <div class="left-section">
+      <img src="picto-logo.png" class="logo" />
+      <h1 class="office-name">
+        Provincial Information and Communication Technology Office
+      </h1>
+    </div>
 
-  <div class="right-section">
-    <a></a>
-  </div>
-</header>
+    <div class="right-section">
+      <a></a>
+    </div>
+  </header>
 
-<nav class="sidebar">
-  <a
-    routerLink="/home"
-    routerLinkActive="active"
-    [routerLinkActiveOptions]="{ exact: true }"
-    class="nav-link"
-  >
-    <i class="fas fa-home icon"></i> Home
-  </a>
-
-  <a
-    routerLink="/calendar"
-    routerLinkActive="active"
-    [routerLinkActiveOptions]="{ exact: true }"
-    class="nav-link"
-  >
-    <i class="fa-regular fa-calendar icon"></i> Calendar
-  </a>
-
-  <a
-    routerLink="/tasks"
-    routerLinkActive="active"
-    [routerLinkActiveOptions]="{ exact: true }"
-    class="nav-link"
-  >
-    <i class="fas fa-tasks icon"></i> My Tasks
-  </a>
-
-  <a
-    routerLink="/review"
-    routerLinkActive="active"
-    [routerLinkActiveOptions]="{ exact: true }"
-    class="nav-link"
-  >
-    <i class="fa-regular fa-star icon"></i> Review
-  </a>
-
-  <div class="sidebar-footer">
-    <a class="nav-link" (click)="logout()">
-      <i class="fas fa-sign-out-alt icon"></i> Logout
+  <nav class="sidebar">
+    <a
+      routerLink="/home"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-link"
+    >
+      <i class="fas fa-home icon"></i> Home
     </a>
-  </div>
-</nav>
 
+    <a
+      routerLink="/calendar"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-link"
+    >
+      <i class="fa-regular fa-calendar icon"></i> Calendar
+    </a>
 
-  <main class="main-content">
-    <router-outlet></router-outlet>
-  </main>
-</ng-container>
+    <a
+      routerLink="/tasks"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-link"
+    >
+      <i class="fas fa-tasks icon"></i> My Tasks
+    </a>
 
-<ng-template #loginOnly>
+    <a
+      routerLink="/review"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-link"
+    >
+      <i class="fa-regular fa-star icon"></i> Review
+    </a>
+
+    <div class="sidebar-footer">
+      <a class="nav-link" (click)="logout()">
+        <i class="fas fa-sign-out-alt icon"></i> Logout
+      </a>
+    </div>
+  </nav>
+
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+}
+
+@else {
   <router-outlet></router-outlet>
-</ng-template>
+}
+

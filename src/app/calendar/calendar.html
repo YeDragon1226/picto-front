@@ -13,14 +13,17 @@
       </div>
 
       <div class="calendar-weeks-grid">
-        <div class="calendar-weeks-grid-cell" *ngFor="let weekDay of weekDays()">
-          {{ weekDay }}
-        </div>
+        @for (weekDay of weekDays();track weekDay) {
+          <div class="calendar-weeks-grid-cell">
+           {{ weekDay }}
+          </div>
+        }
+
       </div>
 
       <div class="calendar-grid">
+        @for (dayOfMonth of daysOfMonth(); track dayOfMonth) {
         <div
-          *ngFor="let dayOfMonth of daysOfMonth()"
           class="calendar-grid-cell"
           [class.calendar-grid-cell-active]="activeDay()?.toISODate() === dayOfMonth.toISODate()"
           [class.calendar-grid-cell-inactive]="dayOfMonth.month !== firstDayOfActiveMonth().month"
@@ -31,47 +34,67 @@
         >
           <div class="calendar-grid-cell-date">
             {{ dayOfMonth.day }}
-            <span *ngIf="isHoliday(dayOfMonth)"></span>
+            @if (isHoliday(dayOfMonth)) {
+              <span></span>
+            }
           </div>
-            <div class="calendar-grid-cell-holiday-label" *ngIf="isHoliday(dayOfMonth)">
-              {{ getHolidayName(dayOfMonth) }}
-            </div>
+            @if (isHoliday(dayOfMonth)) {
+              <div class="calendar-grid-cell-holiday-label">
+                {{ getHolidayName(dayOfMonth) }}
+              </div>
+            }
 
-            <ul class="calendar-day-meetings" *ngIf="!isHoliday(dayOfMonth)">
-              <li *ngFor="let meeting of getMeetingsForDay(dayOfMonth)">
-                {{ meeting }}
-              </li>
-            </ul>
+            @if (!isHoliday(dayOfMonth)) {
+              <ul class="calendar-day-meetings">
+                @for (meeting of getMeetingsForDay(dayOfMonth); track meeting) {
+                  <li>{{ meeting }}</li>
+                }
+              </ul>
+            }
+
         </div>
+        }
       </div>
     </div>
 
     <div class="schedule">
       <div class="schedule-headline">
-        <div *ngIf="activeDay(); else noSelection">
-          {{ activeDay()!.toLocaleString(DATE_MED) }}
-        </div>
-        <ng-template #noSelection>
-          <div>Please select a day</div>
-        </ng-template>
+        @if (activeDay()) {
+          <div>
+            {{ activeDay()!.toLocaleString(DATE_MED) }}
+          </div>
+        }
+        @else {
+            <div>
+              Please select a day
+            </div>
+        }
       </div>
 
       <div>
-        <div class="empty-state" *ngIf="activeDay() && activeDayMeetings().length === 0">
-          No Planned Tasks Today
-        </div>
-
-        <div *ngIf="activeDay() && activeDayMeetings().length > 0">
-          <div class="plan" *ngFor="let meetings of activeDayMeetings()">
-            <span>Who: User 1</span><br>
-            <span>What: {{ meetings }}</span><br>
-            <span>Where: Department 2</span>
+        @if (activeDay() && activeDayMeetings().length === 0) {
+          <div class="empty-state">
+            No Planned Tasks Today
           </div>
-        </div>
+        }
 
-        <div class="footer" *ngIf="footer()" title="Add Task">
+        @if (activeDay() && activeDayMeetings().length > 0) {
+          <div>
+            @for (meetings of activeDayMeetings(); track meetings) {
+              <div class="plan">
+                <span>Who: User 1</span><br>
+                <span>What: {{ meetings }}</span><br>
+                <span>Where: Department 2</span>
+              </div>
+            }
+          </div>
+        }
+
+        @if (footer()) {
+          <div class="footer" title="Add Task">
             <i class="fas fa-plus icon" title="Add Task"></i>
-        </div>
+          </div>
+        }
       </div>
     </div>
   </div>

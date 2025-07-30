@@ -3,7 +3,8 @@
     <h2>Announcements</h2>
   </div>
 
-  <div *ngIf="showNewForm" class="form-box">
+  @if (showNewForm) {
+  <div class="form-box">
     <input [(ngModel)]="newTitle" placeholder="Title" class="input" />
     <textarea [(ngModel)]="newMessage" placeholder="Message" class="textarea"></textarea>
 
@@ -32,8 +33,9 @@
       </div>
     </div>
   </div>
+  }
 
-  <ng-container *ngIf="!showNewForm">
+  @if (!showNewForm) {
     <div class="filter-bar">
       <input [(ngModel)]="searchTerm" placeholder="Search announcements..." class="input" />
       <select [(ngModel)]="selectedCategory" class="select">
@@ -49,20 +51,25 @@
     </div>
 
     <div class="card-container">
-      <div *ngFor="let a of filteredAnnouncements" class="card">
-        <div class="card-header">
-          <h3>
-            {{ a.title }}
-            <span *ngIf="a.pinned" title="Pinned">📌</span>
-          </h3>
+      @for (a of filteredAnnouncements; track a) {
+        <div class="card">
+          <div class="card-header">
+            <h3>
+              {{ a.title }}
+              @if (a.pinned) {
+                <span title="Pinned">📌</span>
+              }
+            </h3>
+          </div>
+          <p>{{ a.message }}</p>
+          <small>{{ a.date }} — <i>{{ a.category }}</i></small>
         </div>
-        <p>{{ a.message }}</p>
-        <small>{{ a.date }} — <i>{{ a.category }}</i></small>
-      </div>
+      }
+
       <div class="card add-announcement-card" (click)="showNewForm = true">
         <div class="add-icon">+</div>
         <div class="add-label">Add Announcement</div>
       </div>
     </div>
-  </ng-container>
+  }
 </div>
