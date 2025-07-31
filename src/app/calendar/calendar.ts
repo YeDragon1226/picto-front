@@ -1,8 +1,10 @@
-import {Component,Signal,WritableSignal,computed,signal,OnInit,} from '@angular/core';
+import {Component,Signal,WritableSignal,computed,signal,OnInit, inject,} from '@angular/core';
 import { Meetings } from './meetings.interface';
 import { DateTime, Info, Interval } from 'luxon';
 import { CommonModule } from '@angular/common';
 import { Data } from '../data/data';
+import { Datav2 } from '../data/data.v2';
+import {Announcements } from '../interface/announcements'
 
 @Component({
   selector: 'calendar',
@@ -13,6 +15,7 @@ import { Data } from '../data/data';
 })
 export class Calendar implements OnInit {
   data = new Data();
+  datav2 = inject(Datav2)
 
   private cleanMeetings: Meetings = this.data.getCleanMeetings();
 
@@ -46,21 +49,25 @@ export class Calendar implements OnInit {
 
   DATE_MED = DateTime.DATE_MED;
 
-  activeDayMeetings: Signal<string[]> = computed(() => {
-    const activeDay = this.activeDay();
-    if (activeDay === null) {
-      return [];
-    }
-    const activeDayISO = activeDay.toISODate();
+  activeDayMeetings = computed(() => {
+    return this.datav2.announcements.filter((item) => this.activeDay()?.toISODate() == item.date);
+  })
 
-    if (!activeDayISO) {
-      return [];
-    }
+  // activeDayMeetings: Signal<string[]> = computed(() => {
+  //   const activeDay = this.activeDay();
+  //   if (activeDay === null) {
+  //     return [];
+  //   }
+  //   const activeDayISO = activeDay.toISODate();
 
-    const meetings = this.meetings()[activeDayISO] ?? [];
-    console.log(`Meetings for ${activeDayISO}:`, meetings);
-    return meetings;
-  });
+  //   if (!activeDayISO) {
+  //     return [];
+  //   }
+
+  //   const meetings = this.meetings()[activeDayISO] ?? [];
+  //   console.log(`Meetings for ${activeDayISO}:`, meetings);
+  //   return meetings;
+  // });
 
   ngOnInit() {
     console.log('Calendar initialized');
@@ -97,10 +104,8 @@ export class Calendar implements OnInit {
 
   getMeetingsForDay(day: DateTime): string[] {
   const date = day.toISODate();
-  if (!date) return [];
 
-  const allMeetings = this.meetings()[date] || [];
-  return allMeetings.filter((text) => !this.data.isCompleted(date, text));
+  return this.datav2.announcements.filter((item) => day.toISODate() == item.date).map((x) => x.title);
   }
 
   hasMeetings(day: DateTime): boolean {

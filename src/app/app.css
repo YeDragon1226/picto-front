@@ -11,6 +11,8 @@
   font-family: 'Times New Roman', Times, serif;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   width: 100%;
+  min-height: 10dvh;
+
 }
 
 .left-section {
@@ -23,7 +25,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 30px;
+  gap: 10px;
   flex-grow: 1;
 }
 
@@ -53,11 +55,14 @@
 .nav-link:hover {
   color: white;
   border-top: 2px solid #1CB5E0;
+  border-bottom: 2px solid #1CB5E0;
+  line-height: 1.5;
 }
 
 .nav-link.active {
   font-weight: bold;
-  border-top: 2px solid ;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
   color: #ffffff;
 }
 

@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { Announcements } from '../interface/announcements';
 import { Employee } from '../interface/employee';
@@ -31,13 +31,19 @@ export class Home {
   showNewForm = false;
   selectedCategory = '';
   searchTerm = '';
-  showSelect = true;
+  showSelect = false;
 
   today = Date()
+
+  autocomplete = new FormControl('');
 
 
   constructor() {
 
+  }
+
+  showFocus() {
+    console.log('showFocus')
   }
 
   get filteredAnnouncements(): Announcements[] {

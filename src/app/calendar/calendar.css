@@ -3,22 +3,23 @@
   justify-content: center;
   align-items: flex-start;
   padding: 20px;
+  width: 100vw;
   flex-wrap: wrap;
+  height: 92dvh;
 }
 
 .calendar-container {
   display: flex;
-  flex-wrap: wrap;
   padding: 10px;
-  width: 1200px;
+  width: clamp(800px, 95dvw, 2000px);
+  height: 100%;
 }
 
 .calendar {
-  flex: 1 1 600px;
   padding-right: 10px;
   padding: 0 30px 20px 0;
   border-right: 1px solid rgb(190, 190, 190);
-  min-width: 250px;
+  width: 60%;
   animation: slideIn 0.2s ease-out;
 }
 
@@ -30,6 +31,7 @@
   border-bottom: 2px solid #D3D3D3;
   flex-wrap: wrap;
 }
+
 
 .calendar-headline-month {
   font-size: 28px;
@@ -54,7 +56,8 @@
 }
 
 .calendar-headline-control-today {
-  margin: 0 10px;
+  margin: 0 5px;
+  font-weight: bold;
 }
 
 .calendar-weeks-grid {
@@ -67,13 +70,12 @@
 
 .calendar-weeks-grid-cell {
   text-align: center;
-  border-radius: 50px;
+  border-radius: 100%;
   background: hwb(198 85% 3%);
   padding: 10px;
   font-weight: 600;
 }
 
-.calendar-weeks-grid-cell:hover,
 .calendar-grid-cell-holiday-label:hover {
   background: #9ba3bf;
   color: white;
@@ -91,7 +93,7 @@
   flex-direction: column;
   align-items: flex-start;
   padding: 6px;
-  height: 80px;
+  height: calc(100vw - 94.5vw);
   font-size: 0.875rem;
   overflow: hidden;
   cursor: pointer;
@@ -149,9 +151,10 @@
 }
 
 .schedule {
-  flex: 0 1 350px;
-  margin-left: 20px;
-  min-width: 350px;
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  width: 40%;
   animation: slideIn 0.2s ease-out;
 }
 
@@ -165,14 +168,45 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-.plan {
-  border: none;
-  border-radius: 6px;
-  background-color: #f1f1f1;
-  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
-  margin-bottom: 25px;
-  padding: 10px;
+.current-announcements-wrapper {
+  overflow-y: scroll;
+  flex-grow: 1;
+  .plan {
+    background-color: #f0f0f0;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+    margin-bottom: 25px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    > * {
+      padding: 10px;
+      width: 90%;
+    }
+
+    :first-child {
+      font-weight: bolder;
+      font-style: none;
+      width: 100%;
+      color: white;
+      height: fit-content;
+      background-color: #0298de;
+    }
+
+    :nth-child(2) {
+      margin-block: 10px;
+      border-radius: 5px;
+      background-color: #ddd;
+    }
+
+    :last-child {
+      font-style: oblique;
+      border-top: solid #8f8f8f;
+      width: 100%;
+    }
+  }
 }
+
 
 .empty-state {
   text-align: center;
@@ -204,6 +238,9 @@
   text-align: left;
   max-height: 40px;
   overflow: hidden;
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 @keyframes slideIn {
@@ -215,4 +252,8 @@
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+.head-color {
+  color: #4b4b5a;
 }

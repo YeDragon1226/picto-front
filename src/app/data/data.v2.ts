@@ -35,6 +35,51 @@ export class Datav2 {
       pinned: true,
       reminder: 0,
     },
+    {
+      title: 'New Feature',
+      message:
+        'Task pinning is now available. You can pin important announcements so they appear at the top.',
+      date: '2025-08-01',
+      receiver: 'General',
+      pinned: true,
+      reminder: 0,
+    },
+    {
+      title: 'New Feature',
+      message:
+        'Task pinning is now available. You can pin important announcements so they appear at the top.',
+      date: '2025-08-01',
+      receiver: 'General',
+      pinned: true,
+      reminder: 0,
+    },
+    {
+      title: 'New Feature',
+      message:
+        'Task pinning is now available. You can pin important announcements so they appear at the top.',
+      date: '2025-08-01',
+      receiver: 'General',
+      pinned: true,
+      reminder: 0,
+    },
+    {
+      title: 'New Feature',
+      message:
+        'Task pinning is now available. You can pin important announcements so they appear at the top.',
+      date: '2025-08-01',
+      receiver: 'General',
+      pinned: true,
+      reminder: 0,
+    },
+    {
+      title: 'New Feature',
+      message:
+        'Task pinning is now available. You can pin important announcements so they appear at the top.',
+      date: '2025-08-01',
+      receiver: 'General',
+      pinned: true,
+      reminder: 0,
+    },
   ];
 
   employees: Employee[] = [

@@ -1,13 +1,20 @@
-<div class="select-container">
-  @for (item of employees(); track $index) {
-  <div>Select a user</div>
-  }
-</div>
+<!-- @if (showSelect) {
+  <div class="select-container" (click)="showSelect = false">
+    <div class="select-wrapper">
+      @for (item of employees(); track $index) {
+    <div>Select a user</div>
+    }
+    </div>
+  </div>
+} -->
 
 <div class="announcement-container">
   <div class="announcement-wrapper">
     <div class="top-bar">
-      <h2>Announcements</h2>
+      <h2 class="head-color">Announcements</h2>
+      @if (!showNewForm) {
+      <input [(ngModel)]="searchTerm" placeholder="Search" class="input" />
+      }
     </div>
 
     @if (showNewForm) {
@@ -21,6 +28,7 @@
 
       <div [className]="'form-actions'">
         <div class="picker">
+          <p>Announced In:</p>
           <input [(ngModel)]="newDate" type="date" class="input" />
         </div>
         <div class="picker">
@@ -28,12 +36,21 @@
           <input [(ngModel)]="newDate" type="number" class="input" />
         </div>
       </div>
-      <select name="employee" class="input" [formControl]="employee">
-        <option value="everyone">Everyone</option>
-        @for (item of employees(); track $index) {
-        <option value="{{ item.nickname }}">{{ item.nickname }}</option>
-        }
-      </select>
+      <input
+        input
+        #receiver
+        [formControl]="autocomplete"
+        (onFocus)="showFocus()"
+        placeholder="Receiver"
+        class="input"
+      />
+
+      <div class="autocomplete">
+        @if (showSelect) { @for (item of employees(); track $index) {
+        <div class="member">{{item.nickname}}</div>
+        } }
+      </div>
+      <div class="form-actions"></div>
 
       <div class="form-footer">
         <div class="pin-toggle">
@@ -51,17 +68,10 @@
       </div>
     </div>
     } @else {
-    <div class="filter-bar">
-      <input
-        [(ngModel)]="searchTerm"
-        placeholder="Search announcements..."
-        class="input"
-      />
 
-      <div class="widget">
-        <span class="label">Today :</span>
-        <span class="value">{{ today | date }}</span>
-      </div>
+    <div class="widget">
+      <span class="label">Today :</span>
+      <span class="value">{{ today | date }}</span>
     </div>
 
     <div class="card-container">
@@ -85,7 +95,7 @@
       </div>
     </div>
 
-    <div class="reminder">
+    <div class="reminder-card">
       <h3>Reminders</h3>
       <div class="reminder-list">
         @for (a of filteredAnnouncements; track a) {
@@ -101,6 +111,33 @@
           <small>{{ a.date }} — <i>{{ a.receiver }}</i></small>
         </div>
         }
+      </div>
+    </div>
+
+    <div class="portfolio-sections">
+      <div class="portfolio-section">
+        <h3>Incoming</h3>
+        <ul class="portfolio-thumbnails">
+          <li>
+            <img src="head.png" />
+            <div class="overlay">
+              <i class="fas fa-eye"></i>
+              <a href="#"> View </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="portfolio-section">
+        <h3>Outgoing</h3>
+        <ul class="portfolio-thumbnails">
+          <li>
+            <img src="head.png" />
+            <div class="overlay">
+              <i class="fas fa-eye"></i>
+              <a href="#"> View </a>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
 

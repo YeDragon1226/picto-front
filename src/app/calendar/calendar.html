@@ -2,23 +2,30 @@
   <div class="calendar-container">
     <div class="calendar">
       <div class="calendar-headline">
-        <div class="calendar-headline-month">
-          {{ firstDayOfActiveMonth().monthShort }}, {{ firstDayOfActiveMonth().year }}
+        <div class="calendar-headline-month head-color">
+          {{ firstDayOfActiveMonth().monthShort }}, {{
+          firstDayOfActiveMonth().year }}
         </div>
-        <div class="calendar-headline-controls">
-          <div class="calendar-headline-control" (click)="goToPreviousMonth()">«</div>
-          <div class="calendar-headline-control calendar-headline-control-today" (click)="goToToday()">Today</div>
-          <div class="calendar-headline-control" (click)="goToNextMonth()">»</div>
+        <div class="calendar-headline-controls head-color">
+          <div class="calendar-headline-control" (click)="goToPreviousMonth()">
+            <i class="fa fa-chevron-left"></i>
+          </div>
+          <div
+            class="calendar-headline-control calendar-headline-control-today"
+            (click)="goToToday()"
+          >
+            TODAY
+          </div>
+          <div class="calendar-headline-control" (click)="goToNextMonth()">
+            <i class="fa fa-chevron-right"></i>
+          </div>
         </div>
       </div>
 
       <div class="calendar-weeks-grid">
         @for (weekDay of weekDays();track weekDay) {
-          <div class="calendar-weeks-grid-cell">
-           {{ weekDay }}
-          </div>
+        <div class="calendar-weeks-grid-cell">{{ weekDay }}</div>
         }
-
       </div>
 
       <div class="calendar-grid">
@@ -34,62 +41,46 @@
         >
           <div class="calendar-grid-cell-date">
             {{ dayOfMonth.day }}
-            @if (isHoliday(dayOfMonth)) {
-              <span></span>
-            }
           </div>
-            @if (isHoliday(dayOfMonth)) {
-              <div class="calendar-grid-cell-holiday-label">
-                {{ getHolidayName(dayOfMonth) }}
-              </div>
+          @if (isHoliday(dayOfMonth)) {
+          <div class="calendar-grid-cell-holiday-label">
+            {{ getHolidayName(dayOfMonth) }}
+          </div>
+          } @if (!isHoliday(dayOfMonth)) {
+          <ul class="calendar-day-meetings">
+            @for (meeting of getMeetingsForDay(dayOfMonth); track meeting) {
+            <li>{{ meeting }}</li>
             }
-
-            @if (!isHoliday(dayOfMonth)) {
-              <ul class="calendar-day-meetings">
-                @for (meeting of getMeetingsForDay(dayOfMonth); track meeting) {
-                  <li>{{ meeting }}</li>
-                }
-              </ul>
-            }
-
+          </ul>
+          }
         </div>
         }
       </div>
     </div>
 
     <div class="schedule">
-      <div class="schedule-headline">
+      <div class="schedule-headline head-color">
         @if (activeDay()) {
-          <div>
-            {{ activeDay()!.toLocaleString(DATE_MED) }}
-          </div>
-        }
-        @else {
-            <div>
-              Please select a day
-            </div>
+        <div>{{ activeDay()!.toLocaleString(DATE_MED) }}</div>
+        } @else {
+        <div>Please select a day</div>
         }
       </div>
 
-      <div>
+      <div class="current-announcements-wrapper">
         @if (activeDay() && activeDayMeetings().length === 0) {
-          <div class="empty-state">
-            No Planned Tasks Today
+        <div class="empty-state">No Announcements</div>
+        } @if (activeDay() && activeDayMeetings().length > 0) {
+        <div >
+          @for (meetings of activeDayMeetings(); track meetings) {
+          <div class="plan">
+            <div>{{meetings.title}}</div>
+            <div>{{meetings.message}}</div>
+            <div>{{meetings.receiver}}</div>
           </div>
+          }
+        </div>
         }
-
-        @if (activeDay() && activeDayMeetings().length > 0) {
-          <div>
-            @for (meetings of activeDayMeetings(); track meetings) {
-              <div class="plan">
-                <span>Who: User 1</span><br>
-                <span>What: {{ meetings }}</span><br>
-                <span>Where: Department 2</span>
-              </div>
-            }
-          </div>
-        }
-
       </div>
     </div>
   </div>
