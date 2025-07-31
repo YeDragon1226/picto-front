@@ -9,8 +9,8 @@
 .calendar-container {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
-  max-width: 1200px;
+  padding: 10px;
+  width: 1200px;
 }
 
 .calendar {
@@ -18,7 +18,7 @@
   padding-right: 10px;
   padding: 0 30px 20px 0;
   border-right: 1px solid rgb(190, 190, 190);
-  min-width: 300px;
+  min-width: 250px;
   animation: slideIn 0.2s ease-out;
 }
 
@@ -91,7 +91,7 @@
   flex-direction: column;
   align-items: flex-start;
   padding: 6px;
-  height: 60px;
+  height: 80px;
   font-size: 0.875rem;
   overflow: hidden;
   cursor: pointer;
@@ -149,10 +149,9 @@
 }
 
 .schedule {
-  flex: 0 1 280px;
-  margin-top: 30px;
+  flex: 0 1 350px;
   margin-left: 20px;
-  min-width: 250px;
+  min-width: 350px;
   animation: slideIn 0.2s ease-out;
 }
 
@@ -175,45 +174,9 @@
   padding: 10px;
 }
 
-.footer {
-  position: absolute;
-  bottom: 20px;
-  height: 45px;
-  width: 255px;
-  border:dotted 3px #adabab;
-  border-radius: 6px;
-  background-color: #ffffff;
-  margin-bottom: 25px;
-  padding: 10px;
-  text-align: center;
-  cursor: pointer;
-}
-
-.footer i {
-  margin-top: 5px;
-  border-radius: 99px;
-  padding: 10px;
-  background: #f1f1f1;
-  color: black;
-}
-
-.footer:hover  {
-  background: #f1f1f1;
-  color: black;
-}
-
-.footer:hover {
-  color: #2196f3;
-  border: dotted 2px #2196f3;
-}
-
-.footer:hover i {
-  color: blue;
-  border:solid 1px #2196f3;
-}
-
 .empty-state {
-  margin: 20px;
+  text-align: center;
+  margin: 30px;
   color: #666;
   font-style: italic;
 }

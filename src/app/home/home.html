@@ -1,69 +1,82 @@
-<div class="announcement-wrapper">
-  <div class="top-bar">
-    <h2>Announcements</h2>
-  </div>
-
-  @if (showNewForm) {
-  <div class="form-box">
-    <input [(ngModel)]="newTitle" placeholder="Title" class="input" />
-    <textarea [(ngModel)]="newMessage" placeholder="Message" class="textarea"></textarea>
-
-    <div class="picker">
-      <input [(ngModel)]="newDate" type="date" class="input" />
-      <select [(ngModel)]="newCategory" class="select">
-        <option value="">Select Category</option>
-        <option value="General">General</option>
-        <option value="Urgent">Urgent</option>
-        <option value="Update">Update</option>
-      </select>
-    </div>
-
-    <div class="form-footer">
-      <div class="pin-toggle">
-        <input type="checkbox" id="pin" [(ngModel)]="isPinned" />
-        <label for="pin">Pin this Announcement</label>
-      </div>
-      <div class="btn">
-        <button class="post-btn" (click)="addAnnouncement()">
-          <i class="fas fa-paper-plane"></i>
-        </button>
-        <button class="cancel-btn" (click)="showNewForm = false">
-          <i class="fas fa-ban"></i>
-        </button>
-      </div>
-    </div>
-  </div>
+<div class="select-container">
+  @for (item of employees(); track $index) {
+  <div>Select a user</div>
   }
+</div>
 
-  @if (!showNewForm) {
-    <div class="filter-bar">
-      <input [(ngModel)]="searchTerm" placeholder="Search announcements..." class="input" />
-      <select [(ngModel)]="selectedCategory" class="select">
-        <option value="">All Categories</option>
-        <option value="General">General</option>
-        <option value="Urgent">Urgent</option>
-        <option value="Update">Update</option>
+<div class="announcement-container">
+  <div class="announcement-wrapper">
+    <div class="top-bar">
+      <h2>Announcements</h2>
+    </div>
+
+    @if (showNewForm) {
+    <div class="form-box">
+      <input [(ngModel)]="newTitle" placeholder="Title" class="input" />
+      <textarea
+        [(ngModel)]="newMessage"
+        placeholder="Message"
+        class="textarea"
+      ></textarea>
+
+      <div [className]="'form-actions'">
+        <div class="picker">
+          <input [(ngModel)]="newDate" type="date" class="input" />
+        </div>
+        <div class="picker">
+          <p>Remind In:</p>
+          <input [(ngModel)]="newDate" type="number" class="input" />
+        </div>
+      </div>
+      <select name="employee" class="input" [formControl]="employee">
+        <option value="everyone">Everyone</option>
+        @for (item of employees(); track $index) {
+        <option value="{{ item.nickname }}">{{ item.nickname }}</option>
+        }
       </select>
+
+      <div class="form-footer">
+        <div class="pin-toggle">
+          <input type="checkbox" id="pin" [(ngModel)]="isPinned" />
+          <label for="pin">Pin this Announcement</label>
+        </div>
+        <div class="btn">
+          <button class="post-btn" (click)="addAnnouncement()">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+          <button class="cancel-btn" (click)="showNewForm = false">
+            <i class="fas fa-ban"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    } @else {
+    <div class="filter-bar">
+      <input
+        [(ngModel)]="searchTerm"
+        placeholder="Search announcements..."
+        class="input"
+      />
+
       <div class="widget">
         <span class="label">Today :</span>
-        <span class="value">{{ today }}</span>
+        <span class="value">{{ today | date }}</span>
       </div>
     </div>
 
     <div class="card-container">
       @for (a of filteredAnnouncements; track a) {
-        <div class="card">
-          <div class="card-header">
-            <h3>
-              {{ a.title }}
-              @if (a.pinned) {
-                <span title="Pinned">📌</span>
-              }
-            </h3>
-          </div>
-          <p>{{ a.message }}</p>
-          <small>{{ a.date }} — <i>{{ a.category }}</i></small>
+      <div class="card">
+        <div class="card-header">
+          <h3>
+            {{ a.title }} @if (a.pinned) {
+            <span title="Pinned">📌</span>
+            }
+          </h3>
         </div>
+        <p>{{ a.message }}</p>
+        <small>{{ a.date }} — <i>{{ a.receiver }}</i></small>
+      </div>
       }
 
       <div class="card add-announcement-card" (click)="showNewForm = true">
@@ -71,5 +84,26 @@
         <div class="add-label">Add Announcement</div>
       </div>
     </div>
-  }
+
+    <div class="reminder">
+      <h3>Reminders</h3>
+      <div class="reminder-list">
+        @for (a of filteredAnnouncements; track a) {
+        <div class="card">
+          <div class="card-header">
+            <h3>
+              {{ a.title }} @if (a.pinned) {
+              <span title="Pinned">📌</span>
+              }
+            </h3>
+          </div>
+          <p>{{ a.message }}</p>
+          <small>{{ a.date }} — <i>{{ a.receiver }}</i></small>
+        </div>
+        }
+      </div>
+    </div>
+
+    }
+  </div>
 </div>

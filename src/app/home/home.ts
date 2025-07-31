@@ -1,71 +1,56 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DateTime } from 'luxon';
-
-interface Announcement {
-  title: string;
-  message: string;
-  date: string;
-  category: string;
-  pinned: boolean;
-}
+import { Announcements } from '../interface/announcements';
+import { Employee } from '../interface/employee';
+import { Datav2 } from '../data/data.v2';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './home.html',
-  styleUrls: ['./home.css']
+  styleUrls: ['./home.css'],
 })
 export class Home {
-  announcements: Announcement[] = [
-    {
-      title: 'System Update',
-      message: 'Scheduled maintenance at 10 PM. The system will be unavailable for about 2 hours. Please save your work and log off before that time to avoid any data loss.',
-      date: '2025-07-29',
-      category: 'Update',
-      pinned: false
-    },
-    {
-      title: 'New Feature',
-      message: 'Task pinning is now available. You can pin important announcements so they appear at the top.',
-      date: '2025-07-29',
-      category: 'General',
-      pinned: true
-    },
-    {
-      title: 'New Feature',
-      message: 'Task pinning is now available. You can pin important announcements so they appear at the top.',
-      date: '2025-07-30',
-      category: 'General',
-      pinned: true
-    }
-  ];
+
+  data = inject(Datav2)
+  announcements = signal(this.data.announcements)
+  employees = signal(this.data.employees)
+
+  employee = new FormControl('')
 
   newDate: string = '';
-  showNewForm = false;
   newTitle = '';
   newMessage = '';
   newCategory = '';
   isPinned = false;
-  searchTerm = '';
-  selectedCategory = '';
+  reminder = 0
 
-  get today(): string {
-    return DateTime.now().toFormat('MMMM dd, yyyy');
+  showNewForm = false;
+  selectedCategory = '';
+  searchTerm = '';
+  showSelect = true;
+
+  today = Date()
+
+
+  constructor() {
+
   }
 
-  get filteredAnnouncements(): Announcement[] {
+  get filteredAnnouncements(): Announcements[] {
     const todayDate = DateTime.now().toISODate();
 
-    return this.announcements
-      .filter(a =>
-        a.date === todayDate &&
-        (!this.selectedCategory || a.category === this.selectedCategory) &&
-        (!this.searchTerm ||
-          a.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          a.message.toLowerCase().includes(this.searchTerm.toLowerCase()))
+    return this.announcements()
+      .filter(
+        (a) =>
+          a.date === todayDate &&
+          (!this.selectedCategory || a.receiver === this.selectedCategory) &&
+          (!this.searchTerm ||
+            a.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+            a.message.toLowerCase().includes(this.searchTerm.toLowerCase()))
       )
       .sort((a, b) => {
         if (a.pinned !== b.pinned) return b.pinned ? 1 : -1;
@@ -74,23 +59,31 @@ export class Home {
   }
 
   addAnnouncement() {
-  if (!this.newTitle || !this.newMessage || !this.newCategory || !this.newDate) return;
+    if (
+      !this.newTitle ||
+      !this.newMessage ||
+      !this.newCategory ||
+      !this.newDate
+    )
+      return;
 
-  const newAnn = {
-    title: this.newTitle,
-    message: this.newMessage,
-    category: this.newCategory,
-    pinned: this.isPinned,
-    date: this.newDate
-  };
+    const newAnn = {
+      title: this.newTitle,
+      message: this.newMessage,
+      receiver: this.newCategory,
+      pinned: this.isPinned,
+      date: this.newDate,
+      reminder: this.reminder,
+    };
 
-  this.announcements.unshift(newAnn);
-  this.newTitle = '';
-  this.newMessage = '';
-  this.newCategory = '';
-  this.newDate = '';
-  this.isPinned = false;
-  this.showNewForm = false;
+    this.announcements().unshift(newAnn);
+    this.newTitle = '';
+    this.newMessage = '';
+    this.newCategory = '';
+    this.newDate = '';
+    this.isPinned = false;
+    this.showNewForm = false;
+    this.reminder = 0;
   }
 
 }
