@@ -21,13 +21,11 @@
           </div>
         </div>
       </div>
-
       <div class="calendar-weeks-grid">
         @for (weekDay of weekDays();track $index) {
         <div class="calendar-weeks-grid-cell">{{ weekDay }}</div>
         }
       </div>
-
       <div class="calendar-grid">
         @for (dayOfMonth of daysOfMonth(); track $index) {
         <div

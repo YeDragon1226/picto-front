@@ -1,7 +1,7 @@
 <div class="announcement-container">
   <div class="announcement-wrapper">
     <div class="top-bar">
-      @if (!showNewForm) {
+      @if (!showNewForm && !showReminderForm) {
       <h2 class="head-color">Announcements</h2>
       <input [(ngModel)]="searchTerm" placeholder="Search" class="input" />
       }
@@ -16,13 +16,20 @@
         class="textarea"
       ></textarea>
 
-        <div [className]="'form-actions'">
-          <div class="picker">
-            <p>Announced On:</p>
-            <input formControlName="date" type="date" class="input" />
-            <p>Remind In (day/s):</p>
-            <input (invalid)="onError('reminder')" formControlName="reminder" type="number" class="input" min="0" [pattern]="'^[0-9]*$'"/>
-          </div>
+      <div [className]="'form-actions'">
+        <div class="picker">
+          <p>Announced On:</p>
+          <input formControlName="date" type="date" class="input" />
+          <p>Remind In (day/s):</p>
+          <input
+            (invalid)="onError('reminder')"
+            formControlName="reminder"
+            type="number"
+            class="input"
+            min="0"
+            [pattern]="'^[0-9]*$'"
+          />
+        </div>
 
         <div class="input-wrapper">
           <input
@@ -37,29 +44,28 @@
           <i class="close-icon fas fa-close" (click)="showSelect = false"></i>
           }
         </div>
+      </div>
 
+      @if (showSelect) { @if(added_employees.length >= 0 && added_employees[0]
+      != 'everyone') {
+      <div class="autocomplete">
+        <div class="member" (click)="onEveryoneClick()">everyone</div>
+        @for (item of employees(); track $index) {
+        <div class="member" (click)="onMemberClick(item.nickname)">
+          {{item.nickname}}
         </div>
+        }
+      </div>
+      }}
 
-        @if (showSelect) { @if(added_employees.length >= 0 && added_employees[0] !=
-        'everyone') {
-        <div class="autocomplete">
-          <div class="member" (click)="onEveryoneClick()">everyone</div>
-          @for (item of employees(); track $index) {
-          <div class="member" (click)="onMemberClick(item.nickname)">
-            {{item.nickname}}
-          </div>
-          }
+      <div class="added_employees">
+        @for (item of added_employees; track $index) {
+        <div class="member">
+          {{item}}
+          <i class="fas fa-times" (click)="onAddedMemberClick(item)"></i>
         </div>
-        }}
-
-        <div class="added_employees">
-          @for (item of added_employees; track $index) {
-          <div class="member">
-            {{item}}
-            <i class="fas fa-times" (click)="onAddedMemberClick(item)"></i>
-          </div>
-          }
-        </div>
+        }
+      </div>
 
       <div class="form-footer">
         <div class="pin-toggle">
@@ -76,6 +82,40 @@
         </div>
       </div>
     </form>
+    } @else if (showReminderForm) {
+    <div class="reminder-card">
+      <div class="header">
+        <h3>Reminders</h3>
+        <i class="fas fa-close" (click)="showReminderForm = false"></i>
+      </div>
+      <div class="reminder-list">
+        @for (a of data.announcements; track $index) {
+        <div class="card">
+          <div class="card-header">
+            <h3>
+              {{ a.title }} @if (a.pinned) {
+              <span title="Pinned">📌</span>
+              }
+            </h3>
+          </div>
+          <p>{{ a.message }}</p>
+          <small>{{ a.date }} — <i>{{ a.receiver }}</i></small>
+          <div class="action-container">
+            <p>Remind At: {{computedReminder(a.date, $index)}}</p>
+            <form action="" [formGroup]="reminderForm">
+              <input
+                formControlName="reminder"
+                type="number"
+                value="{{a.reminder}}"
+                min="0"
+              />
+            </form>
+            <button class="" (click)="saveReminder(a, $index)">SAVE</button>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
     } @else {
 
     <div class="widget">
@@ -107,7 +147,7 @@
     <div class="reminder-card">
       <div class="header">
         <h3>Reminders</h3>
-        <i class="fas fa-plus"></i>
+        <i (click)="showReminderForm = true" class="fas fa-plus"></i>
       </div>
       <div class="reminder-list">
         @for (a of filteredReminders; track $index) {
@@ -131,13 +171,13 @@
         <div class="header">
           <h3>Incoming</h3>
 
-            <input
+          <input
             type="file"
             id="incomingFile"
             (change)="onImageInSelected($event)"
             accept="image/*"
             hidden
-            />
+          />
           <label for="incomingFile">
             <i class="fas fa-upload"></i>
           </label>
@@ -173,7 +213,7 @@
 
         <ul class="portfolio-thumbnails">
           @if (imageOutPreview) {
-          <li >
+          <li>
             <img [src]="imageOutPreview" />
             <div class="overlay">
               <i class="fas fa-eye"></i>
@@ -181,10 +221,10 @@
             </div>
           </li>
           }
-
         </ul>
       </div>
     </div>
 
     }
+  </div>
 </div>

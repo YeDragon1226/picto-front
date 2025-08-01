@@ -34,6 +34,7 @@ export class Home {
   selectedCategory = '';
   searchTerm = '';
   showSelect = false;
+  showReminderForm = false;
 
   today = Date();
 
@@ -45,6 +46,13 @@ export class Home {
     reminder: new FormControl<number | null>(0),
     pinned: new FormControl(false),
   });
+
+   reminderForm = new FormGroup({
+    reminder: new FormControl<number | null>(0),
+  });
+
+
+
 
   added_employees: String[] = [];
 
@@ -135,6 +143,11 @@ export class Home {
       });
   }
 
+  computedReminder(event: string, index: number) {
+    const date = DateTime.fromISO(event);
+    return date.minus({ days: this.announcements()[index].reminder }).toISODate();
+  }
+
   imageInPreview: string | ArrayBuffer | null = null;
 
   onImageInSelected(event: Event): void {
@@ -155,7 +168,26 @@ export class Home {
       reader.onload = () => (this.imageOutPreview = reader.result);
       reader.readAsDataURL(file);
     }
+  }
 
+  makeReminderNumber() {
+
+    let num = 0
+
+    if (this.reminderForm.get('reminder')?.value == null) {
+      num = 0
+    } else {
+      num = this.reminderForm.get('reminder')?.value as number
+    }
+    return num
+  }
+
+  saveReminder(a: Announcements, $index: number) {
+    a.reminder = this.makeReminderNumber()
+    this.reminderForm.get('reminder')?.setValue(0);
+
+    this.data.updateAnnouncement(a, $index);
+    this.announcements.set(this.data.announcements);
   }
 
   onSubmit() {

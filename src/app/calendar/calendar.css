@@ -1,3 +1,7 @@
+.head-color {
+  color: #4b4b5a;
+}
+
 .page-wrapper {
   display: flex;
   justify-content: center;
@@ -142,6 +146,19 @@
           font-size: 0.85em;
         }
 
+        .calendar-grid-cell-holiday-label {
+          font-size: 12px;
+          color: #c0392b;
+          font-weight: bold;
+          line-height: 1.2;
+          text-align: left;
+          max-height: 40px;
+          overflow: hidden;
+          width: 100%;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
         .calendar-day-meetings {
           margin: 0;
           padding: 0;
@@ -228,19 +245,6 @@
   }
 }
 
-.calendar-grid-cell-holiday-label {
-  font-size: 12px;
-  color: #c0392b;
-  font-weight: bold;
-  line-height: 1.2;
-  text-align: left;
-  max-height: 40px;
-  overflow: hidden;
-  width: 100%;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
 @keyframes slideIn {
   from {
     transform: translateY(40px);
@@ -250,8 +254,4 @@
     transform: translateY(0);
     opacity: 1;
   }
-}
-
-.head-color {
-  color: #4b4b5a;
 }

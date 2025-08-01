@@ -38,6 +38,7 @@ export class Data {
     '12-25': ['Christmas Day'],
     '12-30': ['Rizal Day'],
     '08-21': ['Ninoy Aquino Day'],
+    '08-25': ['National Heroes Day'],
     '11-01': ['All Saints’ Day'],
     '12-08': ['Feast of the Immaculate Conception of Mary'],
     '12-31': ['Last Day of the Year'],

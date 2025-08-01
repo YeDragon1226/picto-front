@@ -122,4 +122,8 @@ export class Datav2 {
     });
     console.log(this.announcements);
   }
+
+  updateAnnouncement(a: Announcements, $index: number) {
+    this.announcements[$index] = a;
+  }
 }
