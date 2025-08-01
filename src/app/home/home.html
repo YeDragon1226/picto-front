@@ -18,43 +18,50 @@
     </div>
 
     @if (showNewForm) {
-    <div class="form-box">
-      <input [(ngModel)]="newTitle" placeholder="Title" class="input" />
+    <form class="form-box" [formGroup]="announceForm">
+      <input formControlName="title" placeholder="Title" class="input" />
       <textarea
-        [(ngModel)]="newMessage"
+        formControlName="message"
         placeholder="Message"
         class="textarea"
       ></textarea>
 
       <div [className]="'form-actions'">
         <div class="picker">
-          <p>Announced In:</p>
-          <input [(ngModel)]="newDate" type="date" class="input" />
+          <p>Announced On:</p>
+          <input formControlName="date" type="date" class="input" />
         </div>
         <div class="picker">
           <p>Remind In:</p>
-          <input [(ngModel)]="newDate" type="number" class="input" />
+          <input formControlName="reminder" type="number" class="input" />
         </div>
       </div>
       <input
-        input
         #receiver
-        [formControl]="autocomplete"
-        (onFocus)="showFocus()"
+        formControlName="employee"
         placeholder="Receiver"
+        type="text"
         class="input"
-      />
+        (focus)="showFocus()"
+        (blur)="hideFocus()"
 
+      />
       <div class="autocomplete">
-        @if (showSelect) { @for (item of employees(); track $index) {
+
+        @if (showSelect) {
+        <div class="member">EVERYONE</div>
+          @for (item of employees(); track $index) {
         <div class="member">{{item.nickname}}</div>
         } }
       </div>
-      <div class="form-actions"></div>
+
+      <div class="added_employees">
+
+      </div>
 
       <div class="form-footer">
         <div class="pin-toggle">
-          <input type="checkbox" id="pin" [(ngModel)]="isPinned" />
+          <input type="checkbox" id="pin" formControlName="pinned" />
           <label for="pin">Pin this Announcement</label>
         </div>
         <div class="btn">
@@ -66,7 +73,7 @@
           </button>
         </div>
       </div>
-    </div>
+    </form>
     } @else {
 
     <div class="widget">
@@ -96,7 +103,10 @@
     </div>
 
     <div class="reminder-card">
-      <h3>Reminders</h3>
+      <div class="header">
+        <h3>Reminders</h3>
+        <i class="fas fa-plus"></i>
+      </div>
       <div class="reminder-list">
         @for (a of filteredAnnouncements; track a) {
         <div class="card">
@@ -116,29 +126,59 @@
 
     <div class="portfolio-sections">
       <div class="portfolio-section">
-        <h3>Incoming</h3>
+        <div class="header">
+          <h3>Incoming</h3>
+
+          <input
+            type="file"
+            id="incomingFile"
+            (change)="onImageInSelected($event)"
+            accept="image/*"
+            hidden
+          />
+          <label for="incomingFile">
+            <i class="fas fa-upload"></i>
+          </label>
+        </div>
+
         <ul class="portfolio-thumbnails">
-          <li>
-            <img src="head.png" />
+          <li *ngIf="imageInPreview">
+            <img [src]="imageInPreview" />
             <div class="overlay">
               <i class="fas fa-eye"></i>
-              <a href="#"> View </a>
+              <a [href]="imageInPreview" target="_blank">View</a>
             </div>
           </li>
         </ul>
       </div>
+
+
       <div class="portfolio-section">
-        <h3>Outgoing</h3>
+        <div class="header">
+          <h3>Outgoing</h3>
+                  <input
+            type="file"
+            id="outcomingFile"
+            (change)="onImageOutSelected($event)"
+            accept="image/*"
+            hidden
+          />
+          <label for="outcomingFile">
+            <i class="fas fa-upload"></i>
+          </label>
+        </div>
+
         <ul class="portfolio-thumbnails">
-          <li>
-            <img src="head.png" />
+          <li *ngIf="imageOutPreview">
+            <img [src]="imageOutPreview" />
             <div class="overlay">
               <i class="fas fa-eye"></i>
-              <a href="#"> View </a>
+              <a [href]="imageOutPreview" target="_blank">View</a>
             </div>
           </li>
         </ul>
       </div>
+
     </div>
 
     }

@@ -1,6 +1,18 @@
-import { Component, inject, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { FormControl, FormsModule, ReactiveFormsModule, } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { DateTime } from 'luxon';
 import { Announcements } from '../interface/announcements';
 import { Employee } from '../interface/employee';
@@ -14,36 +26,49 @@ import { Datav2 } from '../data/data.v2';
   styleUrls: ['./home.css'],
 })
 export class Home {
+  data = inject(Datav2);
+  announcements = signal(this.data.announcements);
 
-  data = inject(Datav2)
-  announcements = signal(this.data.announcements)
-  employees = signal(this.data.employees)
-
-  employee = new FormControl('')
+  employee = new FormControl('');
 
   newDate: string = '';
   newTitle = '';
   newMessage = '';
   newCategory = '';
   isPinned = false;
-  reminder = 0
+  reminder = 0;
 
   showNewForm = false;
   selectedCategory = '';
   searchTerm = '';
   showSelect = false;
 
-  today = Date()
+  today = Date();
 
-  autocomplete = new FormControl('');
+  announceForm = new FormGroup({
+    title: new FormControl(''),
+    employee: new FormControl(''),
+    message: new FormControl(''),
+    date: new FormControl(new Date()),
+    reminder: new FormControl(0),
+    pinned: new FormControl(false),
+  });
 
-
-  constructor() {
-
-  }
+  employees = signal(this.data.employees);
+constructor() {
+  this.announceForm.get('employee')?.valueChanges.subscribe((value) => {
+    this.employees.set(this.data.employees);
+    if (value == '') return
+    this.employees.set(this.employees().filter((e)=> e.nickname.toLowerCase().includes(value == null ? '' : value.toLowerCase())))
+  })
+}
 
   showFocus() {
-    console.log('showFocus')
+    this.showSelect = true;
+  }
+
+  hideFocus() {
+    this.showSelect = false;
   }
 
   get filteredAnnouncements(): Announcements[] {
@@ -92,4 +117,25 @@ export class Home {
     this.reminder = 0;
   }
 
+  imageInPreview: string | ArrayBuffer | null = null;
+
+  onImageInSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => (this.imageInPreview = reader.result);
+      reader.readAsDataURL(file);
+    }
+  }
+
+  imageOutPreview: string | ArrayBuffer | null = null;
+
+  onImageOutSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => (this.imageOutPreview = reader.result);
+      reader.readAsDataURL(file);
+    }
+  }
 }
