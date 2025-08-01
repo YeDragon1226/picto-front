@@ -23,13 +23,13 @@
       </div>
 
       <div class="calendar-weeks-grid">
-        @for (weekDay of weekDays();track weekDay) {
+        @for (weekDay of weekDays();track $index) {
         <div class="calendar-weeks-grid-cell">{{ weekDay }}</div>
         }
       </div>
 
       <div class="calendar-grid">
-        @for (dayOfMonth of daysOfMonth(); track dayOfMonth) {
+        @for (dayOfMonth of daysOfMonth(); track $index) {
         <div
           class="calendar-grid-cell"
           [class.calendar-grid-cell-active]="activeDay()?.toISODate() === dayOfMonth.toISODate()"
@@ -48,7 +48,7 @@
           </div>
           } @if (!isHoliday(dayOfMonth)) {
           <ul class="calendar-day-meetings">
-            @for (meeting of getMeetingsForDay(dayOfMonth); track meeting) {
+            @for (meeting of getMeetingsForDay(dayOfMonth); track $index) {
             <li>{{ meeting }}</li>
             }
           </ul>
@@ -57,7 +57,6 @@
         }
       </div>
     </div>
-
     <div class="schedule">
       <div class="schedule-headline head-color">
         @if (activeDay()) {
@@ -72,7 +71,7 @@
         <div class="empty-state">No Announcements</div>
         } @if (activeDay() && activeDayMeetings().length > 0) {
         <div >
-          @for (meetings of activeDayMeetings(); track meetings) {
+          @for (meetings of activeDayMeetings(); track $index) {
           <div class="plan">
             <div>{{meetings.title}}</div>
             <div>{{meetings.message}}</div>

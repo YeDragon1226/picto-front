@@ -17,6 +17,7 @@ import { DateTime } from 'luxon';
 import { Announcements } from '../interface/announcements';
 import { Employee } from '../interface/employee';
 import { Datav2 } from '../data/data.v2';
+import { endWith } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -29,15 +30,6 @@ export class Home {
   data = inject(Datav2);
   announcements = signal(this.data.announcements);
 
-  employee = new FormControl('');
-
-  newDate: string = '';
-  newTitle = '';
-  newMessage = '';
-  newCategory = '';
-  isPinned = false;
-  reminder = 0;
-
   showNewForm = false;
   selectedCategory = '';
   searchTerm = '';
@@ -49,26 +41,61 @@ export class Home {
     title: new FormControl(''),
     employee: new FormControl(''),
     message: new FormControl(''),
-    date: new FormControl(new Date()),
-    reminder: new FormControl(0),
+    date: new FormControl(''),
+    reminder: new FormControl<number | null>(0),
     pinned: new FormControl(false),
   });
 
-  employees = signal(this.data.employees);
-constructor() {
-  this.announceForm.get('employee')?.valueChanges.subscribe((value) => {
-    this.employees.set(this.data.employees);
-    if (value == '') return
-    this.employees.set(this.employees().filter((e)=> e.nickname.toLowerCase().includes(value == null ? '' : value.toLowerCase())))
-  })
-}
+  added_employees: String[] = [];
 
-  showFocus() {
-    this.showSelect = true;
+  employees = signal(this.data.employees);
+  constructor() {
+    this.announceForm.get('employee')?.valueChanges.subscribe((value) => {
+      this.employees.set(this.data.employees);
+      const iterator = this.added_employees.values();
+
+      for (const iterate of iterator) {
+        if (iterate == 'everyone') {
+          continue;
+        }
+
+        this.employees.set(
+          this.employees().filter(
+            (e) =>
+              !e.nickname
+                .toLowerCase()
+                .includes(iterate == null ? '' : iterate.toLowerCase())
+          )
+        );
+      }
+      if (value == '') return;
+      this.employees.set(
+        this.employees().filter((e) =>
+          e.nickname
+            .toLowerCase()
+            .includes(value == null ? '' : value.toLowerCase())
+        )
+      );
+    });
   }
 
-  hideFocus() {
-    this.showSelect = false;
+  onMemberClick(event: String) {
+    this.added_employees.push(event);
+    this.announceForm.get('employee')?.setValue('');
+  }
+
+  onAddedMemberClick(event: String) {
+    this.added_employees.splice(this.added_employees.indexOf(event), 1);
+    this.announceForm.get('employee')?.setValue('');
+  }
+
+  onEveryoneClick() {
+    this.added_employees = ['everyone'];
+    this.announceForm.get('employee')?.setValue('');
+  }
+
+  onError(form: String) {
+    this.announceForm.get('reminder')?.setValue(0);
   }
 
   get filteredAnnouncements(): Announcements[] {
@@ -78,10 +105,11 @@ constructor() {
       .filter(
         (a) =>
           a.date === todayDate &&
-          (!this.selectedCategory || a.receiver === this.selectedCategory) &&
           (!this.searchTerm ||
             a.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-            a.message.toLowerCase().includes(this.searchTerm.toLowerCase()))
+            a.message.toLowerCase().includes(this.searchTerm.toLowerCase())||
+          a.date.toLowerCase().includes(this.searchTerm.toLowerCase())
+          )
       )
       .sort((a, b) => {
         if (a.pinned !== b.pinned) return b.pinned ? 1 : -1;
@@ -89,32 +117,22 @@ constructor() {
       });
   }
 
-  addAnnouncement() {
-    if (
-      !this.newTitle ||
-      !this.newMessage ||
-      !this.newCategory ||
-      !this.newDate
-    )
-      return;
+  get filteredReminders(): Announcements[] {
+    const todayDate = DateTime.now();
 
-    const newAnn = {
-      title: this.newTitle,
-      message: this.newMessage,
-      receiver: this.newCategory,
-      pinned: this.isPinned,
-      date: this.newDate,
-      reminder: this.reminder,
-    };
-
-    this.announcements().unshift(newAnn);
-    this.newTitle = '';
-    this.newMessage = '';
-    this.newCategory = '';
-    this.newDate = '';
-    this.isPinned = false;
-    this.showNewForm = false;
-    this.reminder = 0;
+    return this.announcements()
+      .filter(
+        (a) =>
+          a.date === todayDate.plus({ days: a.reminder }).toISODate() &&
+          (!this.searchTerm ||
+            a.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+            a.message.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          a.date.toLowerCase().includes(this.searchTerm.toLowerCase()))
+      )
+      .sort((a, b) => {
+        if (a.pinned !== b.pinned) return b.pinned ? 1 : -1;
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      });
   }
 
   imageInPreview: string | ArrayBuffer | null = null;
@@ -137,5 +155,17 @@ constructor() {
       reader.onload = () => (this.imageOutPreview = reader.result);
       reader.readAsDataURL(file);
     }
+
+  }
+
+  onSubmit() {
+    this.announceForm.get('employee')?.setValue(this.added_employees.join(', '));
+    this.data.addAnnouncement(this.announceForm);
+    this.showSelect = false;
+    this.employees.set(this.data.employees);
+    this.announceForm.reset();
+    this.added_employees = [];
+    this.showNewForm = false;
+    this.announcements.set(this.data.announcements);
   }
 }

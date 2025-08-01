@@ -1,18 +1,8 @@
-<!-- @if (showSelect) {
-  <div class="select-container" (click)="showSelect = false">
-    <div class="select-wrapper">
-      @for (item of employees(); track $index) {
-    <div>Select a user</div>
-    }
-    </div>
-  </div>
-} -->
-
 <div class="announcement-container">
   <div class="announcement-wrapper">
     <div class="top-bar">
-      <h2 class="head-color">Announcements</h2>
       @if (!showNewForm) {
+      <h2 class="head-color">Announcements</h2>
       <input [(ngModel)]="searchTerm" placeholder="Search" class="input" />
       }
     </div>
@@ -26,38 +16,50 @@
         class="textarea"
       ></textarea>
 
-      <div [className]="'form-actions'">
-        <div class="picker">
-          <p>Announced On:</p>
-          <input formControlName="date" type="date" class="input" />
-        </div>
-        <div class="picker">
-          <p>Remind In:</p>
-          <input formControlName="reminder" type="number" class="input" />
-        </div>
-      </div>
-      <input
-        #receiver
-        formControlName="employee"
-        placeholder="Receiver"
-        type="text"
-        class="input"
-        (focus)="showFocus()"
-        (blur)="hideFocus()"
+        <div [className]="'form-actions'">
+          <div class="picker">
+            <p>Announced On:</p>
+            <input formControlName="date" type="date" class="input" />
+            <p>Remind In (day/s):</p>
+            <input (invalid)="onError('reminder')" formControlName="reminder" type="number" class="input" min="0" [pattern]="'^[0-9]*$'"/>
+          </div>
 
-      />
-      <div class="autocomplete">
+        <div class="input-wrapper">
+          <input
+            #receiver
+            formControlName="employee"
+            placeholder="Search Employee/s"
+            type="text"
+            class="input"
+            (focus)="showSelect = true"
+          />
+          @if (showSelect) {
+          <i class="close-icon fas fa-close" (click)="showSelect = false"></i>
+          }
+        </div>
 
-        @if (showSelect) {
-        <div class="member">EVERYONE</div>
+        </div>
+
+        @if (showSelect) { @if(added_employees.length >= 0 && added_employees[0] !=
+        'everyone') {
+        <div class="autocomplete">
+          <div class="member" (click)="onEveryoneClick()">everyone</div>
           @for (item of employees(); track $index) {
-        <div class="member">{{item.nickname}}</div>
-        } }
-      </div>
+          <div class="member" (click)="onMemberClick(item.nickname)">
+            {{item.nickname}}
+          </div>
+          }
+        </div>
+        }}
 
-      <div class="added_employees">
-
-      </div>
+        <div class="added_employees">
+          @for (item of added_employees; track $index) {
+          <div class="member">
+            {{item}}
+            <i class="fas fa-times" (click)="onAddedMemberClick(item)"></i>
+          </div>
+          }
+        </div>
 
       <div class="form-footer">
         <div class="pin-toggle">
@@ -65,7 +67,7 @@
           <label for="pin">Pin this Announcement</label>
         </div>
         <div class="btn">
-          <button class="post-btn" (click)="addAnnouncement()">
+          <button class="post-btn" (click)="onSubmit()">
             <i class="fas fa-paper-plane"></i>
           </button>
           <button class="cancel-btn" (click)="showNewForm = false">
@@ -82,7 +84,7 @@
     </div>
 
     <div class="card-container">
-      @for (a of filteredAnnouncements; track a) {
+      @for (a of filteredAnnouncements; track $index) {
       <div class="card">
         <div class="card-header">
           <h3>
@@ -108,7 +110,7 @@
         <i class="fas fa-plus"></i>
       </div>
       <div class="reminder-list">
-        @for (a of filteredAnnouncements; track a) {
+        @for (a of filteredReminders; track $index) {
         <div class="card">
           <div class="card-header">
             <h3>
@@ -129,34 +131,35 @@
         <div class="header">
           <h3>Incoming</h3>
 
-          <input
+            <input
             type="file"
             id="incomingFile"
             (change)="onImageInSelected($event)"
             accept="image/*"
             hidden
-          />
+            />
           <label for="incomingFile">
             <i class="fas fa-upload"></i>
           </label>
         </div>
 
         <ul class="portfolio-thumbnails">
-          <li *ngIf="imageInPreview">
+          @if (imageInPreview) {
+          <li>
             <img [src]="imageInPreview" />
             <div class="overlay">
               <i class="fas fa-eye"></i>
               <a [href]="imageInPreview" target="_blank">View</a>
             </div>
           </li>
+          }
         </ul>
       </div>
-
 
       <div class="portfolio-section">
         <div class="header">
           <h3>Outgoing</h3>
-                  <input
+          <input
             type="file"
             id="outcomingFile"
             (change)="onImageOutSelected($event)"
@@ -169,18 +172,19 @@
         </div>
 
         <ul class="portfolio-thumbnails">
-          <li *ngIf="imageOutPreview">
+          @if (imageOutPreview) {
+          <li >
             <img [src]="imageOutPreview" />
             <div class="overlay">
               <i class="fas fa-eye"></i>
               <a [href]="imageOutPreview" target="_blank">View</a>
             </div>
           </li>
+          }
+
         </ul>
       </div>
-
     </div>
 
     }
-  </div>
 </div>

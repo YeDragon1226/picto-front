@@ -60,6 +60,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+      animation: slideIn 0.2s ease-out;
 
   .form-actions {
     display: flex;
@@ -72,6 +73,18 @@
     }
   }
 
+  .input-wrapper {
+    position: relative;
+
+    i {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+  }
+
   .autocomplete {
     width: 100%;
     height: fit-content;
@@ -81,11 +94,13 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    animation: slideIn 0.2s ease-out;
 
     .member {
-      background-color: #0065ca;
-      padding: 10px;
-      border-radius: 10px;
+      background-color: #278cff;
+      padding: 8px 15px;
+      border-left: 5px solid darkblue;
+      border-radius: 6px;
       color: white;
       font-weight: bolder;
       cursor: pointer;
@@ -106,7 +121,30 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    background-color: red;
+
+    .member {
+      background-color: grey;
+      border-left: 5px solid black;
+      padding: 8px 12px;
+      border-radius: 6px;
+      color: white;
+      font-weight: bolder;
+
+
+      i {
+        position: relative;
+        font-size: 16px;
+        top: -25px;
+        right: -25px;
+        cursor: pointer;
+        color: rgb(0, 0, 0);
+      }
+
+      i:hover {
+        color: red;
+        transform: scale(1.2);
+      }
+    }
   }
 }
 
@@ -299,7 +337,7 @@
 
     img {
       display: block;
-      width: 100%;
+      width: 515px;
       height: 200px;
       border-radius: 9px;
     }
@@ -468,6 +506,10 @@
   }
 }
 
+.head-color {
+  color: #4b4b5a;
+}
+
 @keyframes slideIn {
   from {
     transform: translateY(40px);
@@ -478,29 +520,4 @@
     transform: translateY(0);
     opacity: 1;
   }
-}
-
-.select-container {
-  width: 100%;
-  display: flex;
-  background-color: rgba(0, 0, 0, 0.8);
-  position: absolute;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
-  z-index: 10;
-  height: 100%;
-  padding: 50px 10px;
-
-  .select-wrapper {
-    width: 400px;
-    background-color: blue;
-    height: 100%;
-  }
-}
-
-.head-color {
-  color: #4b4b5a;
 }
