@@ -1,10 +1,18 @@
-import {Component,Signal,WritableSignal,computed,signal,OnInit, inject,} from '@angular/core';
+import {
+  Component,
+  Signal,
+  WritableSignal,
+  computed,
+  signal,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { Meetings } from './meetings.interface';
 import { DateTime, Info, Interval } from 'luxon';
 import { CommonModule } from '@angular/common';
 import { Data } from '../data/data';
 import { Datav2 } from '../data/data.v2';
-import {Announcements } from '../interface/announcements'
+import { Announcements } from '../interface/announcements';
 
 @Component({
   selector: 'calendar',
@@ -15,7 +23,7 @@ import {Announcements } from '../interface/announcements'
 })
 export class Calendar implements OnInit {
   data = new Data();
-  datav2 = inject(Datav2)
+  datav2 = inject(Datav2);
 
   private cleanMeetings: Meetings = this.data.getCleanMeetings();
 
@@ -24,7 +32,8 @@ export class Calendar implements OnInit {
   private today: WritableSignal<DateTime> = signal(DateTime.local());
 
   firstDayOfActiveMonth: WritableSignal<DateTime> = signal(
-    DateTime.local().startOf('month') );
+    DateTime.local().startOf('month')
+  );
 
   activeDay: WritableSignal<DateTime | null> = signal(null);
 
@@ -49,25 +58,13 @@ export class Calendar implements OnInit {
 
   DATE_MED = DateTime.DATE_MED;
 
+  dayRecieverlist = signal<string[]>([]);
+
   activeDayMeetings = computed(() => {
-    return this.datav2.announcements.filter((item) => this.activeDay()?.toISODate() == item.date);
-  })
-
-  // activeDayMeetings: Signal<string[]> = computed(() => {
-  //   const activeDay = this.activeDay();
-  //   if (activeDay === null) {
-  //     return [];
-  //   }
-  //   const activeDayISO = activeDay.toISODate();
-
-  //   if (!activeDayISO) {
-  //     return [];
-  //   }
-
-  //   const meetings = this.meetings()[activeDayISO] ?? [];
-  //   console.log(`Meetings for ${activeDayISO}:`, meetings);
-  //   return meetings;
-  // });
+    return this.datav2.announcements.filter(
+      (item) => this.activeDay()?.toISODate() == item.date
+    );
+  });
 
   ngOnInit() {
     console.log('Calendar initialized');
@@ -76,13 +73,13 @@ export class Calendar implements OnInit {
 
   goToPreviousMonth(): void {
     this.firstDayOfActiveMonth.set(
-    this.firstDayOfActiveMonth().minus({ month: 1 })
+      this.firstDayOfActiveMonth().minus({ month: 1 })
     );
   }
 
   goToNextMonth(): void {
     this.firstDayOfActiveMonth.set(
-    this.firstDayOfActiveMonth().plus({ month: 1 })
+      this.firstDayOfActiveMonth().plus({ month: 1 })
     );
   }
 
@@ -103,13 +100,22 @@ export class Calendar implements OnInit {
   }
 
   getMeetingsForDay(day: DateTime): string[] {
-  const date = day.toISODate();
+    const date = day.toISODate();
 
-  return this.datav2.announcements.filter((item) => day.toISODate() == item.date).map((x) => x.title);
+    return this.datav2.announcements
+      .filter((item) => day.toISODate() == item.date)
+      .map((x) => x.title);
+  }
+
+  getMeetingsForDayV2(day: DateTime): string[] {
+    return this.datav2.announcements
+      .filter((item) => day.toISODate() == item.date)
+      .sort((a, b) => a.receiver.localeCompare(b.receiver))
+      .map((v, i, arr) => {if (i >=2) if (arr[i-1].receiver == v.receiver) return 'null'; return v.receiver});
   }
 
   hasMeetings(day: DateTime): boolean {
-  return this.getMeetingsForDay(day).length > 0;
+    return this.getMeetingsForDay(day).length > 0;
   }
 
   isHoliday(day: DateTime): boolean {

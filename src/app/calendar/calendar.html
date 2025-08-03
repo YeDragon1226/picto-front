@@ -46,8 +46,10 @@
           </div>
           } @if (!isHoliday(dayOfMonth)) {
           <ul class="calendar-day-meetings">
-            @for (meeting of getMeetingsForDay(dayOfMonth); track $index) {
-            <li>{{ meeting }}</li>
+            @for (meeting of getMeetingsForDayV2(dayOfMonth); track $index) {
+              @if (meeting != 'null') {
+              }
+              <div class="{{meeting.replace(' ', '-').toLowerCase()}}">{{meeting}}</div>
             }
           </ul>
           }
