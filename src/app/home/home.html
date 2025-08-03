@@ -99,8 +99,9 @@
             </h3>
           </div>
           <p>{{ a.message }}</p>
-          <small>{{ a.date }} — <i>{{ a.receiver }}</i></small>
-          <div class="action-container">
+          <small>{{ a.date }} — <i><strong> {{ a.receiver }}</strong></i></small>
+
+            <div class="action-container">
             <p>Remind At : <strong>{{computedReminder(a.date, $index)}}</strong></p>
             <form action="" [formGroup]="reminderForm">
               <input
@@ -134,7 +135,7 @@
           </h3>
         </div>
         <p>{{ a.message }}</p>
-        <small>{{ a.date }} — <i>{{ a.receiver }}</i></small>
+        <small>{{ a.date }} — <i><strong> {{ a.receiver }}</strong></i></small>
       </div>
     }
 
@@ -162,7 +163,7 @@
               </h3>
             </div>
             <p>{{ a.message }}</p>
-            <small>{{ a.date }} — <i>{{ a.receiver }}</i></small>
+            <small>{{ a.date }} — <i><strong> {{ a.receiver }}</strong></i></small>
           </div>
         }
       </div>
