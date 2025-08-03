@@ -13,7 +13,7 @@ announcements: Announcements[] = [
     title: 'Passing of IPCR',
     message:
       'All employees of the Picto Office are reminded to submit their Individual Performance Commitment and Review (IPCR) forms before the deadline. Late submissions will not be accepted.',
-    date: '2025-08-10',
+    date: '2025-08-04',
     receiver: 'Everyone',
     pinned: true,
     reminder: 2,
@@ -22,7 +22,7 @@ announcements: Announcements[] = [
     title: 'IDP Submission Deadline',
     message:
       'Please ensure your Individual Development Plan (IDP) is completed and submitted to HR by August 20th. Timely submission is required for compliance.',
-    date: '2025-08-12',
+    date: '2025-08-03',
     receiver: 'Everyone',
     pinned: false,
     reminder: 1,
@@ -31,7 +31,7 @@ announcements: Announcements[] = [
     title: 'Project Update Required',
     message:
       'User 1, please send the weekly progress report for the Outreach Program before 3:00 PM today.',
-    date: '2025-08-02',
+    date: '2025-08-03',
     receiver: 'User 1',
     pinned: true,
     reminder: 2,
@@ -49,7 +49,7 @@ announcements: Announcements[] = [
     title: 'Leave Request Follow-up',
     message:
       'User 3, please confirm the dates of your approved leave and update the shared calendar accordingly.',
-    date: '2025-08-06',
+    date: '2025-08-03',
     receiver: 'User 3',
     pinned: false,
     reminder: 4,

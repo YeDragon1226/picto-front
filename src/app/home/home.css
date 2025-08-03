@@ -303,10 +303,35 @@
       display: block;
       max-width: fit-content;
       padding-inline: 10px;
+
+      strong {
+        color: #278cff;
+        font-weight: 600;
+      }
+    }
+
+    form {
+      display: flex;
     }
 
     input {
+      padding: 5px 10px;
       margin-inline: 10px;
+      width: 60px;
+    }
+
+    button {
+      padding: 5px 10px;
+      background-color: #278cff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background-color: #1a5bbf;
+      }
     }
   }
 }
@@ -532,6 +557,76 @@
 .head-color {
   color: #4b4b5a;
 }
+
+.card.receiver-everyone {
+  background: linear-gradient(270deg, #bbdefb, #90caf9, #bbdefb);
+  background-size: 600% 600%;
+  border-left: 6px solid #1565c0;
+  animation: gradientShift 4s ease infinite;
+  color: #0d47a1;
+}
+
+.card.receiver-user-1 {
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+  animation: softPulse 6s ease-in-out infinite;
+}
+
+.card.receiver-user-2 {
+  background: linear-gradient(135deg, #dbeeff, #a7d8f5);
+  animation: softPulse 6s ease-in-out infinite;
+}
+
+.card.receiver-user-3 {
+  background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
+  animation: softPulse 6s ease-in-out infinite;
+}
+
+.card.receiver-user-4 {
+  background: linear-gradient(135deg, #d0e8ff, #9ecdf2);
+  animation: softPulse 6s ease-in-out infinite;
+}
+
+.card.receiver-user-5 {
+  background: linear-gradient(135deg, #dfe9f3, #b0cfe7);
+  animation: softPulse 6s ease-in-out infinite;
+}
+
+.card[class*="receiver-"] {
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 8px;
+  color: #0d1b2a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.card[class*="receiver-"]:hover {
+  transform: scale(1.01);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes softPulse {
+  0%, 100% {
+    filter: brightness(100%);
+  }
+  50% {
+    filter: brightness(105%);
+  }
+}
+
 
 @keyframes slideIn {
   from {

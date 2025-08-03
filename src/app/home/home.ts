@@ -200,4 +200,9 @@ export class Home {
     this.showNewForm = false;
     this.announcements.set(this.data.announcements);
   }
+
+  sanitizeReceiver(receiver: string): string {
+    return receiver.toLowerCase().replace(/\s+/g, '-');
+  }
+
 }

@@ -90,7 +90,7 @@
       </div>
       <div class="reminder-list">
         @for (a of data.announcements; track $index) {
-        <div class="card">
+          <div class="card" [ngClass]="'receiver-' + sanitizeReceiver(a.receiver)">
           <div class="card-header">
             <h3>
               {{ a.title }} @if (a.pinned) {
@@ -101,7 +101,7 @@
           <p>{{ a.message }}</p>
           <small>{{ a.date }} — <i>{{ a.receiver }}</i></small>
           <div class="action-container">
-            <p>Remind At: {{computedReminder(a.date, $index)}}</p>
+            <p>Remind At : <strong>{{computedReminder(a.date, $index)}}</strong></p>
             <form action="" [formGroup]="reminderForm">
               <input
                 formControlName="reminder"
@@ -110,7 +110,7 @@
                 min="0"
               />
             </form>
-            <button class="" (click)="saveReminder(a, $index)">SAVE</button>
+            <button class="" (click)="saveReminder(a, $index)"><i class="fas fa-save"></i></button>
           </div>
         </div>
         }
@@ -124,19 +124,20 @@
     </div>
 
     <div class="card-container">
-      @for (a of filteredAnnouncements; track $index) {
-      <div class="card">
+    @for (a of filteredAnnouncements; track $index) {
+      <div class="card" [ngClass]="'receiver-' + sanitizeReceiver(a.receiver)">
         <div class="card-header">
           <h3>
             {{ a.title }} @if (a.pinned) {
-            <span title="Pinned">📌</span>
+              <span title="Pinned">📌</span>
             }
           </h3>
         </div>
         <p>{{ a.message }}</p>
         <small>{{ a.date }} — <i>{{ a.receiver }}</i></small>
       </div>
-      }
+    }
+
 
       <div class="card add-announcement-card" (click)="showNewForm = true">
         <div class="add-icon">+</div>
@@ -151,20 +152,22 @@
       </div>
       <div class="reminder-list">
         @for (a of filteredReminders; track $index) {
-        <div class="card">
-          <div class="card-header">
-            <h3>
-              {{ a.title }} @if (a.pinned) {
-              <span title="Pinned">📌</span>
-              }
-            </h3>
+          <div class="card" [ngClass]="'receiver-' + sanitizeReceiver(a.receiver)">
+            <div class="card-header">
+              <h3>
+                {{ a.title }}
+                @if (a.pinned) {
+                  <span title="Pinned">📌</span>
+                }
+              </h3>
+            </div>
+            <p>{{ a.message }}</p>
+            <small>{{ a.date }} — <i>{{ a.receiver }}</i></small>
           </div>
-          <p>{{ a.message }}</p>
-          <small>{{ a.date }} — <i>{{ a.receiver }}</i></small>
-        </div>
         }
       </div>
     </div>
+
 
     <div class="portfolio-sections">
       <div class="portfolio-section">
