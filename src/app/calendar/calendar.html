@@ -70,8 +70,8 @@
         } @if (activeDay() && activeDayMeetings().length > 0) {
         <div >
           @for (meetings of activeDayMeetings(); track $index) {
-          <div class="plan">
-            <div>{{meetings.title}}</div>
+          <div class="plan {{meetings.receiver.replace(' ', '-').toLowerCase()}}">
+            <div >{{meetings.title}}</div>
             <div>{{meetings.message}}</div>
             <div>{{meetings.receiver}}</div>
           </div>

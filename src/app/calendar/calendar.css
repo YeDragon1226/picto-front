@@ -199,14 +199,46 @@
         overflow-y: scroll;
         flex-grow: 1;
 
+        .everyone {
+          background: linear-gradient(270deg, #bbdefb, #90caf9, #bbdefb);
+          animation: gradientShift 4s ease infinite;
+        }
+
+        .user-1 {
+          background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+          animation: softPulse 6s ease-in-out infinite;
+        }
+
+        .user-2 {
+          background: linear-gradient(135deg, #dbeeff, #a7d8f5);
+          animation: softPulse 6s ease-in-out infinite;
+        }
+
+        .user-3 {
+          background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
+          animation: softPulse 6s ease-in-out infinite;
+        }
+
+        .user-4 {
+          background: linear-gradient(135deg, #d0e8ff, #9ecdf2);
+          animation: softPulse 6s ease-in-out infinite;
+        }
+
+        .user-5 {
+          background: linear-gradient(135deg, #dfe9f3, #b0cfe7);
+          animation: softPulse 6s ease-in-out infinite;
+        }
+
         .plan {
           background-color: #f0f0f0;
-          box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 8px 3px -5px rgba(0, 0, 0, 0.2);
           margin-bottom: 25px;
           height: fit-content;
           display: flex;
           flex-direction: column;
           align-items: center;
+          border-radius: 5px;
+
           > * {
             padding: 10px;
             width: 90%;
@@ -216,21 +248,13 @@
             font-weight: bolder;
             font-style: none;
             width: 100%;
-            color: white;
             height: fit-content;
-            background-color: #0298de;
-          }
-
-          :nth-child(2) {
-            margin-block: 10px;
-            border-radius: 5px;
-            background-color: #ddd;
           }
 
           :last-child {
             font-style: oblique;
-            border-top: solid #8f8f8f;
             width: 100%;
+            font-size: 12px;
           }
         }
 
@@ -239,13 +263,14 @@
           margin: 30px;
           color: #666;
           font-style: italic;
+          background-color: none;
+          border-bottom-right-radius: 5px;
+          border-bottom-left-radius: 5px;
         }
       }
     }
   }
 }
-
-
 
 @keyframes slideIn {
   from {
@@ -255,5 +280,27 @@
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes softPulse {
+  0%, 100% {
+    filter: brightness(100%);
+  }
+  50% {
+    filter: brightness(105%);
   }
 }
