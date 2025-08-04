@@ -3,7 +3,7 @@
     <div class="top-bar">
       @if (!showNewForm && !showReminderForm) {
       <h2 class="head-color">Announcements</h2>
-      <input [(ngModel)]="searchTerm" placeholder="Search" class="input" />
+      <input [(ngModel)]="searchTerm" placeholder="Search" class="input"/>
       }
     </div>
 
@@ -47,9 +47,9 @@
       </div>
 
       @if (showSelect) { @if(added_employees.length >= 0 && added_employees[0]
-      != 'everyone') {
+      != 'Everyone') {
       <div class="autocomplete">
-        <div class="member" (click)="onEveryoneClick()">everyone</div>
+        <div class="member" (click)="onEveryoneClick()">Everyone</div>
         @for (item of employees(); track $index) {
         <div class="member" (click)="onMemberClick(item.nickname)">
           {{item.nickname}}
@@ -90,7 +90,10 @@
       </div>
       <div class="reminder-list">
         @for (a of data.announcements; track $index) {
-          <div class="card" [ngClass]="'receiver-' + sanitizeReceiver(a.receiver)">
+        <div
+          class="card"
+          [ngClass]="'receiver-' + sanitizeReceiver(a.receiver)"
+        >
           <div class="card-header">
             <h3>
               {{ a.title }} @if (a.pinned) {
@@ -99,10 +102,14 @@
             </h3>
           </div>
           <p>{{ a.message }}</p>
-          <small>{{ a.date }} — <i><strong> {{ a.receiver }}</strong></i></small>
+          <small
+            >{{ a.date }} — <i><strong> {{ a.receiver }}</strong></i></small
+          >
 
-            <div class="action-container">
-            <p>Remind At : <strong>{{computedReminder(a.date, $index)}}</strong></p>
+          <div class="action-container">
+            <p>
+              Remind At : <strong>{{computedReminder(a.date, $index)}}</strong>
+            </p>
             <form action="" [formGroup]="reminderForm">
               <input
                 formControlName="reminder"
@@ -111,7 +118,9 @@
                 min="0"
               />
             </form>
-            <button class="" (click)="saveReminder(a, $index)"><i class="fas fa-save"></i></button>
+            <button class="" (click)="saveReminder(a, $index)">
+              <i class="fas fa-save"></i>
+            </button>
           </div>
         </div>
         }
@@ -125,20 +134,21 @@
     </div>
 
     <div class="card-container">
-    @for (a of filteredAnnouncements; track $index) {
+      @for (a of filteredAnnouncements; track $index) {
       <div class="card" [ngClass]="'receiver-' + sanitizeReceiver(a.receiver)">
         <div class="card-header">
           <h3>
             {{ a.title }} @if (a.pinned) {
-              <span title="Pinned">📌</span>
+            <span title="Pinned">📌</span>
             }
           </h3>
         </div>
         <p>{{ a.message }}</p>
-        <small>{{ a.date }} — <i><strong> {{ a.receiver }}</strong></i></small>
+        <small
+          >{{ a.date }} — <i><strong> {{ a.receiver }}</strong></i></small
+        >
       </div>
-    }
-
+      }
 
       <div class="card add-announcement-card" (click)="showNewForm = true">
         <div class="add-icon">+</div>
@@ -153,22 +163,25 @@
       </div>
       <div class="reminder-list">
         @for (a of filteredReminders; track $index) {
-          <div class="card" [ngClass]="'receiver-' + sanitizeReceiver(a.receiver)">
-            <div class="card-header">
-              <h3>
-                {{ a.title }}
-                @if (a.pinned) {
-                  <span title="Pinned">📌</span>
-                }
-              </h3>
-            </div>
-            <p>{{ a.message }}</p>
-            <small>{{ a.date }} — <i><strong> {{ a.receiver }}</strong></i></small>
+        <div
+          class="card"
+          [ngClass]="'receiver-' + sanitizeReceiver(a.receiver)"
+        >
+          <div class="card-header">
+            <h3>
+              {{ a.title }} @if (a.pinned) {
+              <span title="Pinned">📌</span>
+              }
+            </h3>
           </div>
+          <p>{{ a.message }}</p>
+          <small
+            >{{ a.date }} — <i><strong> {{ a.receiver }}</strong></i></small
+          >
+        </div>
         }
       </div>
     </div>
-
 
     <div class="portfolio-sections">
       <div class="portfolio-section">
@@ -188,14 +201,22 @@
         </div>
 
         <ul class="portfolio-thumbnails">
-          @if (imageInPreview) {
-          <li>
-            <img [src]="imageInPreview" />
-            <div class="overlay">
-              <i class="fas fa-eye"></i>
-              <a [href]="imageInPreview" target="_blank">View</a>
-            </div>
-          </li>
+          @if (arrImageInPreview) {
+          @for (item of arrImageInPreview; track $index) {
+            <li>
+              <img [src]="item" />
+              <div class="overlay">
+                <div class="wrap">
+                  <i class="fas fa-eye"></i>
+                  <a [href]="item" target="_blank">View</a>
+                </div>
+                <div class="wrap">
+                  <i class="fas fa-trash"></i>
+                  <a (click)="onImageInDelete($index)" target="_blank">Delete</a>
+                </div>
+              </div>
+            </li>
+          }
           }
         </ul>
       </div>
@@ -203,27 +224,36 @@
       <div class="portfolio-section">
         <div class="header">
           <h3>Outgoing</h3>
+
           <input
             type="file"
-            id="outcomingFile"
+            id="outgoingFile"
             (change)="onImageOutSelected($event)"
             accept="image/*"
             hidden
           />
-          <label for="outcomingFile">
+          <label for="outgoingFile">
             <i class="fas fa-upload"></i>
           </label>
         </div>
 
         <ul class="portfolio-thumbnails">
-          @if (imageOutPreview) {
-          <li>
-            <img [src]="imageOutPreview" />
-            <div class="overlay">
-              <i class="fas fa-eye"></i>
-              <a [href]="imageOutPreview" target="_blank">View</a>
-            </div>
-          </li>
+          @if (arrImageOutPreview) {
+          @for (item of arrImageOutPreview; track $index) {
+            <li>
+              <img [src]="item" />
+              <div class="overlay">
+                <div class="wrap">
+                  <i class="fas fa-eye"></i>
+                  <a [href]="item" target="_blank">View</a>
+                </div>
+                <div class="wrap" (click)="onImageOutDelete($index)">
+                  <i class="fas fa-trash"></i>
+                  <a target="_blank">Delete</a>
+                </div>
+              </div>
+            </li>
+          }
           }
         </ul>
       </div>

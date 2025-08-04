@@ -63,7 +63,7 @@ export class Home {
       const iterator = this.added_employees.values();
 
       for (const iterate of iterator) {
-        if (iterate == 'everyone') {
+        if (iterate == 'Everyone') {
           continue;
         }
 
@@ -98,7 +98,7 @@ export class Home {
   }
 
   onEveryoneClick() {
-    this.added_employees = ['everyone'];
+    this.added_employees = ['Everyone'];
     this.announceForm.get('employee')?.setValue('');
   }
 
@@ -147,27 +147,34 @@ export class Home {
     const date = DateTime.fromISO(event);
     return date.minus({ days: this.announcements()[index].reminder }).toISODate();
   }
-
-  imageInPreview: string | ArrayBuffer | null = null;
+  arrImageInPreview: (string | ArrayBuffer |null)[] = []
 
   onImageInSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = () => (this.imageInPreview = reader.result);
+      reader.onload = () => (this.arrImageInPreview.push(reader.result));
       reader.readAsDataURL(file);
     }
   }
 
-  imageOutPreview: string | ArrayBuffer | null = null;
+  arrImageOutPreview: (string | ArrayBuffer |null)[] = []
 
   onImageOutSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = () => (this.imageOutPreview = reader.result);
+      reader.onload = () => (this.arrImageOutPreview.push(reader.result));
       reader.readAsDataURL(file);
     }
+  }
+
+  onImageOutDelete(event: number): void {
+    this.arrImageInPreview.splice(event, 1);
+  }
+
+  onImageInDelete(event: number): void {
+    this.arrImageInPreview.splice(event, 1);
   }
 
   makeReminderNumber() {

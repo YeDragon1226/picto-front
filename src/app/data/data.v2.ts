@@ -22,7 +22,7 @@ announcements: Announcements[] = [
     title: 'IDP Submission Deadline',
     message:
       'Please ensure your Individual Development Plan (IDP) is completed and submitted to HR by August 20th. Timely submission is required for compliance.',
-    date: '2025-08-03',
+    date: '2025-08-04',
     receiver: 'Everyone',
     pinned: false,
     reminder: 1,
@@ -31,10 +31,10 @@ announcements: Announcements[] = [
     title: 'Project Update Required',
     message:
       'User 1, please send the weekly progress report for the Outreach Program before 3:00 PM today.',
-    date: '2025-08-03',
+    date: '2025-08-05',
     receiver: 'User 1',
-    pinned: true,
-    reminder: 2,
+    pinned: false,
+    reminder: 1,
   },
   {
     title: 'Inventory Sheet Submission',
@@ -43,13 +43,13 @@ announcements: Announcements[] = [
     date: '2025-08-05',
     receiver: 'User 2',
     pinned: false,
-    reminder: 2,
+    reminder: 1,
   },
   {
     title: 'Leave Request Follow-up',
     message:
       'User 3, please confirm the dates of your approved leave and update the shared calendar accordingly.',
-    date: '2025-08-03',
+    date: '2025-08-08',
     receiver: 'User 3',
     pinned: false,
     reminder: 4,
@@ -61,7 +61,7 @@ announcements: Announcements[] = [
     date: '2025-08-09',
     receiver: 'User 4',
     pinned: true,
-    reminder: 5,
+    reminder: 4,
   },
   {
     title: 'System Account Audit',
@@ -70,7 +70,7 @@ announcements: Announcements[] = [
     date: '2025-08-15',
     receiver: 'User 5',
     pinned: false,
-    reminder: 11,
+    reminder: 2,
   },
   {
     title: 'Office Meeting Schedule',
