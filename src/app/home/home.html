@@ -142,14 +142,22 @@
     @else if (showIncomingForm) {
     <form class="form-box2" [formGroup]="announceForm" >
       <h3>Incoming Files</h3>
-      <input formControlName="title" placeholder="Control #" class="input" />
-      <input formControlName="title" placeholder="Type of Document" class="input" />
-      <input formControlName="title" placeholder="Control / Ref #" class="input" />
-      <input formControlName="title" placeholder="Received From" class="input" />
-      <input formControlName="title" placeholder="Title/Subject" class="input" />
-      <input formControlName="title" placeholder="Receipient/Address" class="input" />
-      <input formControlName="title" placeholder="Status" class="input" />
-      <input formControlName="title" placeholder="Folder Name" class="input" />
+      <label for="control">Control #</label>
+      <input formControlName="title" name="control" placeholder="Control #" class="input" />
+      <label for="type">Type of Document</label>
+      <input formControlName="title" name="type" placeholder="Type of Document" class="input" />
+      <label for="ref">Control / Ref #</label>
+      <input formControlName="title" name="ref" placeholder="Control / Ref #" class="input" />
+      <label for="recieve">Received From</label>
+      <input formControlName="title" name="receive" placeholder="Received From" class="input" />
+      <label for="title">Title/Subject</label>
+      <input formControlName="title" name="title" placeholder="Title/Subject" class="input" />
+      <label for="recipient">Receipient/Address</label>
+      <input formControlName="title" name="recipient" placeholder="Receipient/Address" class="input" />
+      <label for="status">Status</label>
+      <input formControlName="title" name="status" placeholder="Status" class="input" />
+      <label for="folder">Folder Name</label>
+      <input formControlName="title" name="folder" placeholder="Folder Name" class="input" />
 
       <div class="form-footer2">
         <div class="btn">
@@ -169,6 +177,7 @@
       <h3>Outgoing Files</h3>
       <input formControlName="title" placeholder="Control #" class="input" />
       <input formControlName="title" placeholder="Title/Subject" class="input" />
+      <input formControlName="title" placeholder="Receipient" class="input" />
       <input formControlName="title" placeholder="Status" class="input" />
       <input formControlName="title" placeholder="Folder Name" class="input" />
 

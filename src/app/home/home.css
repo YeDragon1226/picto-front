@@ -180,6 +180,7 @@
       }
     }
 
+
     .form-box,
     .form-box2 {
       background: #fff;
@@ -188,9 +189,11 @@
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
       margin-bottom: 32px;
       margin-top: -20px;
+      margin: auto;
       display: flex;
       flex-direction: column;
       gap: 16px;
+
 
       .form-actions {
         display: flex;
@@ -352,6 +355,10 @@
 
         }
       }
+
+    .form-box2 {
+      max-width: 80%;
+    }
 
       button {
         padding: 10px 20px;
