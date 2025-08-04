@@ -139,7 +139,7 @@ export class Home {
       )
       .sort((a, b) => {
         if (a.pinned !== b.pinned) return b.pinned ? 1 : -1;
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
+        return new Date(a.date).getTime() - new Date(b.date).getTime();
       });
   }
 
