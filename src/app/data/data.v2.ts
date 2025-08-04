@@ -21,7 +21,7 @@ announcements: Announcements[] = [
   {
     title: 'IDP Submission Deadline',
     message:
-      'Please ensure your Individual Development Plan (IDP) is completed and submitted to HR by August 20th. Timely submission is required for compliance.',
+      'Please ensure your Individual Development Plan (IDP) is completed and submitted to HR by August 5th. Timely submission is required for compliance.',
     date: '2025-08-04',
     receiver: 'Everyone',
     pinned: false,
@@ -39,11 +39,20 @@ announcements: Announcements[] = [
   {
     title: 'Inventory Sheet Submission',
     message:
-      'User 2, kindly update and submit the office supply inventory sheet by Monday morning.',
+      'User 2, kindly update and submit the office supply inventory sheet by Wednesday morning.',
     date: '2025-08-05',
     receiver: 'User 2',
     pinned: false,
     reminder: 1,
+  },
+  {
+    title: 'Design Draft Review',
+    message:
+      'User 4, the first draft of the new layout design must be ready for review by Friday afternoon.',
+    date: '2025-08-07',
+    receiver: 'User 4',
+    pinned: true,
+    reminder: 4,
   },
   {
     title: 'Leave Request Follow-up',
@@ -52,15 +61,6 @@ announcements: Announcements[] = [
     date: '2025-08-08',
     receiver: 'User 3',
     pinned: false,
-    reminder: 4,
-  },
-  {
-    title: 'Design Draft Review',
-    message:
-      'User 4, the first draft of the new layout design must be ready for review by Friday afternoon.',
-    date: '2025-08-09',
-    receiver: 'User 4',
-    pinned: true,
     reminder: 4,
   },
   {

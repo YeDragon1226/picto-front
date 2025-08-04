@@ -17,7 +17,7 @@ import { DateTime } from 'luxon';
 import { Announcements } from '../interface/announcements';
 import { Employee } from '../interface/employee';
 import { Datav2 } from '../data/data.v2';
-import { endWith } from 'rxjs';
+import { endWith, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -29,12 +29,15 @@ import { endWith } from 'rxjs';
 export class Home {
   data = inject(Datav2);
   announcements = signal(this.data.announcements);
+    private subscriptions = new Subscription();
 
   showNewForm = false;
   selectedCategory = '';
   searchTerm = '';
   showSelect = false;
   showReminderForm = false;
+  showIncomingForm = false;
+  showOutgoingForm = false;
 
   today = Date();
 
@@ -47,18 +50,21 @@ export class Home {
     pinned: new FormControl(false),
   });
 
-   reminderForm = new FormGroup({
+  reminderForm = new FormGroup({
     reminder: new FormControl<number | null>(0),
   });
 
-
-
+  reminderFilterForm = new FormGroup({
+    search: new FormControl<string | null>(''),
+    filter: new FormControl<string | null>('All'),
+  });
 
   added_employees: String[] = [];
 
   employees = signal(this.data.employees);
+  reminders = signal(this.data.announcements);
   constructor() {
-    this.announceForm.get('employee')?.valueChanges.subscribe((value) => {
+    const sub1 = this.announceForm.get('employee')?.valueChanges.subscribe((value) => {
       this.employees.set(this.data.employees);
       const iterator = this.added_employees.values();
 
@@ -85,7 +91,51 @@ export class Home {
         )
       );
     });
+
+    const sub2 = this.reminderFilterForm.valueChanges.subscribe((value) => {
+      console.log(value.search);
+      this.reminders.set(this.data.announcements);
+      if (value.filter == 'All' && value.search == '') return;
+      if (value.filter != 'All') {
+        this.reminders.set(
+          this.reminders().filter((e) =>
+            e.receiver
+              .toLowerCase()
+              .includes(value.filter == null ? '' : value.filter.toLowerCase())
+          )
+        );
+      }
+      if (value.search == '') return;
+      this.reminders.set(
+        this.reminders().filter(
+          (e) =>
+            e.title
+              .toLowerCase()
+              .includes(
+                value.search == null ? '' : value.search.toLowerCase()
+              ) ||
+            e.message
+              .toLowerCase()
+              .includes(
+                value.search == null ? '' : value.search.toLowerCase()
+              ) ||
+            e.date
+              .toLowerCase()
+              .includes(
+                value.search == null ? '' : value.search.toLowerCase()
+              ) ||
+            e.receiver
+              .toLowerCase()
+              .includes(value.search == null ? '' : value.search.toLowerCase())
+        )
+      );
+    });
+
+    this.subscriptions.add(sub1);
+    this.subscriptions.add(sub2);
   }
+
+  employeesv2: String[] = this.data.employees.map((x) => x.nickname);
 
   onMemberClick(event: String) {
     this.added_employees.push(event);
@@ -115,9 +165,8 @@ export class Home {
           a.date === todayDate &&
           (!this.searchTerm ||
             a.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-            a.message.toLowerCase().includes(this.searchTerm.toLowerCase())||
-          a.date.toLowerCase().includes(this.searchTerm.toLowerCase())
-          )
+            a.message.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+            a.date.toLowerCase().includes(this.searchTerm.toLowerCase()))
       )
       .sort((a, b) => {
         if (a.pinned !== b.pinned) return b.pinned ? 1 : -1;
@@ -135,7 +184,7 @@ export class Home {
           (!this.searchTerm ||
             a.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
             a.message.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          a.date.toLowerCase().includes(this.searchTerm.toLowerCase()))
+            a.date.toLowerCase().includes(this.searchTerm.toLowerCase()))
       )
       .sort((a, b) => {
         if (a.pinned !== b.pinned) return b.pinned ? 1 : -1;
@@ -145,52 +194,24 @@ export class Home {
 
   computedReminder(event: string, index: number) {
     const date = DateTime.fromISO(event);
-    return date.minus({ days: this.announcements()[index].reminder }).toISODate();
-  }
-  arrImageInPreview: (string | ArrayBuffer |null)[] = []
-
-  onImageInSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => (this.arrImageInPreview.push(reader.result));
-      reader.readAsDataURL(file);
-    }
-  }
-
-  arrImageOutPreview: (string | ArrayBuffer |null)[] = []
-
-  onImageOutSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => (this.arrImageOutPreview.push(reader.result));
-      reader.readAsDataURL(file);
-    }
-  }
-
-  onImageOutDelete(event: number): void {
-    this.arrImageInPreview.splice(event, 1);
-  }
-
-  onImageInDelete(event: number): void {
-    this.arrImageInPreview.splice(event, 1);
+    return date
+      .minus({ days: this.announcements()[index].reminder })
+      .toISODate();
   }
 
   makeReminderNumber() {
-
-    let num = 0
+    let num = 0;
 
     if (this.reminderForm.get('reminder')?.value == null) {
-      num = 0
+      num = 0;
     } else {
-      num = this.reminderForm.get('reminder')?.value as number
+      num = this.reminderForm.get('reminder')?.value as number;
     }
-    return num
+    return num;
   }
 
   saveReminder(a: Announcements, $index: number) {
-    a.reminder = this.makeReminderNumber()
+    a.reminder = this.makeReminderNumber();
     this.reminderForm.get('reminder')?.setValue(0);
 
     this.data.updateAnnouncement(a, $index);
@@ -198,7 +219,9 @@ export class Home {
   }
 
   onSubmit() {
-    this.announceForm.get('employee')?.setValue(this.added_employees.join(', '));
+    this.announceForm
+      .get('employee')
+      ?.setValue(this.added_employees.join(', '));
     this.data.addAnnouncement(this.announceForm);
     this.showSelect = false;
     this.employees.set(this.data.employees);
@@ -212,4 +235,7 @@ export class Home {
     return receiver.toLowerCase().replace(/\s+/g, '-');
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe()
+  }
 }

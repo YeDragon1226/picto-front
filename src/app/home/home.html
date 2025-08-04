@@ -1,14 +1,14 @@
 <div class="announcement-container">
   <div class="announcement-wrapper">
     <div class="top-bar">
-      @if (!showNewForm && !showReminderForm) {
+      @if (!showNewForm && !showReminderForm && !showIncomingForm && !showOutgoingForm) {
       <h2 class="head-color">Announcements</h2>
       <input [(ngModel)]="searchTerm" placeholder="Search" class="input"/>
       }
     </div>
 
     @if (showNewForm) {
-    <form class="form-box" [formGroup]="announceForm">
+    <form class="form-box" [formGroup]="announceForm" >
       <input formControlName="title" placeholder="Title" class="input" />
       <textarea
         formControlName="message"
@@ -82,14 +82,25 @@
         </div>
       </div>
     </form>
+
     } @else if (showReminderForm) {
-    <div class="reminder-card">
+    <div class="reminder-card" style="margin-top: -10px;">
       <div class="header">
         <h3>Reminders</h3>
+        <form [formGroup]="reminderFilterForm">
+          <select class="input" formControlName="filter">
+            <option value="All">All</option>
+            <option value="Everyone">Everyone</option>
+            @for (item of employeesv2; track $index) {
+              <option value="{{item}}">{{item}}</option>
+            }
+          </select>
+          <input formControlName="search" placeholder="Search" class="input"/>
+        </form>
         <i class="fas fa-close" (click)="showReminderForm = false"></i>
       </div>
       <div class="reminder-list">
-        @for (a of data.announcements; track $index) {
+        @for (a of reminders(); track $index) {
         <div
           class="card"
           [ngClass]="'receiver-' + sanitizeReceiver(a.receiver)"
@@ -108,7 +119,7 @@
 
           <div class="action-container">
             <p>
-              Remind At : <strong>{{computedReminder(a.date, $index)}}</strong>
+              Remind On : <strong>{{computedReminder(a.date, $index)}}</strong>
             </p>
             <form action="" [formGroup]="reminderForm">
               <input
@@ -126,8 +137,55 @@
         }
       </div>
     </div>
-    } @else {
+    }
 
+    @else if (showIncomingForm) {
+    <form class="form-box2" [formGroup]="announceForm" >
+      <h3>Incoming Files</h3>
+      <input formControlName="title" placeholder="Control #" class="input" />
+      <input formControlName="title" placeholder="Type of Document" class="input" />
+      <input formControlName="title" placeholder="Control / Ref #" class="input" />
+      <input formControlName="title" placeholder="Received From" class="input" />
+      <input formControlName="title" placeholder="Title/Subject" class="input" />
+      <input formControlName="title" placeholder="Receipient/Address" class="input" />
+      <input formControlName="title" placeholder="Status" class="input" />
+      <input formControlName="title" placeholder="Folder Name" class="input" />
+
+      <div class="form-footer2">
+        <div class="btn">
+          <button class="post-btn" (click)="onSubmit()">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+          <button class="cancel-btn" (click)="showIncomingForm = false">
+            <i class="fas fa-ban"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+    }
+
+    @else if (showOutgoingForm) {
+    <form class="form-box2" [formGroup]="announceForm" >
+      <h3>Outgoing Files</h3>
+      <input formControlName="title" placeholder="Control #" class="input" />
+      <input formControlName="title" placeholder="Title/Subject" class="input" />
+      <input formControlName="title" placeholder="Status" class="input" />
+      <input formControlName="title" placeholder="Folder Name" class="input" />
+
+      <div class="form-footer2">
+        <div class="btn">
+          <button class="post-btn" (click)="onSubmit()">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+          <button class="cancel-btn" (click)="showOutgoingForm = false">
+            <i class="fas fa-ban"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+    }
+
+    @else {
     <div class="widget">
       <span class="label">Today :</span>
       <span class="value">{{ today | date }}</span>
@@ -187,75 +245,15 @@
       <div class="portfolio-section">
         <div class="header">
           <h3>Incoming</h3>
-
-          <input
-            type="file"
-            id="incomingFile"
-            (change)="onImageInSelected($event)"
-            accept="image/*"
-            hidden
-          />
-          <label for="incomingFile">
-            <i class="fas fa-upload"></i>
-          </label>
+          <i (click)="showIncomingForm=true" class="fas fa-upload"></i>
         </div>
-
-        <ul class="portfolio-thumbnails">
-          @if (arrImageInPreview) {
-          @for (item of arrImageInPreview; track $index) {
-            <li>
-              <img [src]="item" />
-              <div class="overlay">
-                <div class="wrap">
-                  <i class="fas fa-eye"></i>
-                  <a [href]="item" target="_blank">View</a>
-                </div>
-                <div class="wrap">
-                  <i class="fas fa-trash"></i>
-                  <a (click)="onImageInDelete($index)" target="_blank">Delete</a>
-                </div>
-              </div>
-            </li>
-          }
-          }
-        </ul>
       </div>
 
       <div class="portfolio-section">
         <div class="header">
           <h3>Outgoing</h3>
-
-          <input
-            type="file"
-            id="outgoingFile"
-            (change)="onImageOutSelected($event)"
-            accept="image/*"
-            hidden
-          />
-          <label for="outgoingFile">
-            <i class="fas fa-upload"></i>
-          </label>
+          <i (click)="showOutgoingForm=true" class="fas fa-upload"></i>
         </div>
-
-        <ul class="portfolio-thumbnails">
-          @if (arrImageOutPreview) {
-          @for (item of arrImageOutPreview; track $index) {
-            <li>
-              <img [src]="item" />
-              <div class="overlay">
-                <div class="wrap">
-                  <i class="fas fa-eye"></i>
-                  <a [href]="item" target="_blank">View</a>
-                </div>
-                <div class="wrap" (click)="onImageOutDelete($index)">
-                  <i class="fas fa-trash"></i>
-                  <a target="_blank">Delete</a>
-                </div>
-              </div>
-            </li>
-          }
-          }
-        </ul>
       </div>
     </div>
 
