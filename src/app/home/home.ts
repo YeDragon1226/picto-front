@@ -1,10 +1,7 @@
 import {
   Component,
-  computed,
-  effect,
   inject,
   signal,
-  WritableSignal,
 } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import {
@@ -15,9 +12,8 @@ import {
 } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { Announcements } from '../interface/announcements';
-import { Employee } from '../interface/employee';
 import { Datav2 } from '../data/data.v2';
-import { endWith, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
