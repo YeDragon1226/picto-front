@@ -12,7 +12,6 @@ import { DateTime, Info, Interval } from 'luxon';
 import { CommonModule } from '@angular/common';
 import { Data } from '../data/data';
 import { Datav2 } from '../data/data.v2';
-import { Announcements } from '../interface/announcements';
 
 @Component({
   selector: 'calendar',
