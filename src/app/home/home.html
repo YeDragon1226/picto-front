@@ -1,14 +1,15 @@
 <div class="announcement-container">
   <div class="announcement-wrapper">
     <div class="top-bar">
-      @if (!showNewForm && !showReminderForm && !showIncomingForm && !showOutgoingForm) {
+      @if (!showNewForm && !showReminderForm && !showIncomingForm &&
+      !showOutgoingForm) {
       <h2 class="head-color">Announcements</h2>
-      <input [(ngModel)]="searchTerm" placeholder="Search" class="input"/>
+      <input [(ngModel)]="searchTerm" placeholder="Search" class="input" />
       }
     </div>
 
     @if (showNewForm) {
-    <form class="form-box" [formGroup]="announceForm" >
+    <form class="form-box" [formGroup]="announceForm">
       <input formControlName="title" placeholder="Title" class="input" />
       <textarea
         formControlName="message"
@@ -84,7 +85,7 @@
     </form>
 
     } @else if (showReminderForm) {
-    <div class="reminder-card" style="margin-top: -10px;">
+    <div class="reminder-card" style="margin-top: -10px">
       <div class="header">
         <h3>Reminders</h3>
         <form [formGroup]="reminderFilterForm">
@@ -92,10 +93,10 @@
             <option value="All">All</option>
             <option value="Everyone">Everyone</option>
             @for (item of employeesv2; track $index) {
-              <option value="{{item}}">{{item}}</option>
+            <option value="{{item}}">{{item}}</option>
             }
           </select>
-          <input formControlName="search" placeholder="Search" class="input"/>
+          <input formControlName="search" placeholder="Search" class="input" />
         </form>
         <i class="fas fa-close" (click)="showReminderForm = false"></i>
       </div>
@@ -137,27 +138,56 @@
         }
       </div>
     </div>
-    }
-
-    @else if (showIncomingForm) {
-    <form class="form-box2" [formGroup]="announceForm" >
+    } @else if (showIncomingForm) {
+    <form class="form-box2" [formGroup]="incomingForm">
       <h3>Incoming Files</h3>
-      <label for="control">Control #</label>
-      <input formControlName="title" name="control" placeholder="Control #" class="input" />
-      <label for="type">Type of Document</label>
-      <input formControlName="title" name="type" placeholder="Type of Document" class="input" />
-      <label for="ref">Control / Ref #</label>
-      <input formControlName="title" name="ref" placeholder="Control / Ref #" class="input" />
-      <label for="recieve">Received From</label>
-      <input formControlName="title" name="receive" placeholder="Received From" class="input" />
-      <label for="title">Title/Subject</label>
-      <input formControlName="title" name="title" placeholder="Title/Subject" class="input" />
-      <label for="recipient">Receipient/Address</label>
-      <input formControlName="title" name="recipient" placeholder="Receipient/Address" class="input" />
-      <label for="status">Status</label>
-      <input formControlName="title" name="status" placeholder="Status" class="input" />
-      <label for="folder">Folder Name</label>
-      <input formControlName="title" name="folder" placeholder="Folder Name" class="input" />
+
+      @let inputIn1 = "Control # (Computer Generated)"; @let inputIn2 = "Type of Document"; @let
+      inputIn3 = "Control / Ref #"; @let inputIn4 = "Received From"; @let
+      inputIn5 = "Title/Subject"; @let inputIn6 = "Receipient/Address"; @let
+      inputIn7 = "Status"; @let inputIn8 = "Folder Name";
+
+    <div class="input-wrapper">
+        <input [disabled]="true" [readOnly]="true" formControlName="control" class="input" />
+        <label>{{inputIn1}}</label>
+      </div>
+
+
+
+      <div class="input-wrapper">
+        <input required #inputInId2 formControlName="type" class="input" />
+        <label>{{inputIn2}}</label>
+      </div>
+
+      <div class="input-wrapper">
+        <input required #inputInId3 formControlName="ref" class="input" />
+        <label>{{inputIn3}}</label>
+      </div>
+
+      <div class="input-wrapper">
+        <input required #inputInId4 formControlName="from" class="input" />
+        <label>{{inputIn4}}</label>
+      </div>
+
+      <div class="input-wrapper">
+        <input required #inputInId5 formControlName="title" class="input" />
+        <label>{{inputIn5}}</label>
+      </div>
+
+      <div class="input-wrapper">
+        <input required #inputInId6 formControlName="recipient" class="input" />
+        <label>{{inputIn6}}</label>
+      </div>
+
+      <div class="input-wrapper">
+        <input required #inputInId7 formControlName="status" class="input" />
+        <label>{{inputIn7}}</label>
+      </div>
+
+      <div class="input-wrapper">
+        <input required #inputInId8 formControlName="folder" class="input" />
+        <label>{{inputIn8}}</label>
+      </div>
 
       <div class="form-footer2">
         <div class="btn">
@@ -170,16 +200,33 @@
         </div>
       </div>
     </form>
-    }
-
-    @else if (showOutgoingForm) {
-    <form class="form-box2" [formGroup]="announceForm" >
+    } @else if (showOutgoingForm) {
+    <form class="form-box2" [formGroup]="outgoingForm">
       <h3>Outgoing Files</h3>
-      <input formControlName="title" placeholder="Control #" class="input" />
-      <input formControlName="title" placeholder="Title/Subject" class="input" />
-      <input formControlName="title" placeholder="Receipient" class="input" />
-      <input formControlName="title" placeholder="Status" class="input" />
-      <input formControlName="title" placeholder="Folder Name" class="input" />
+      @let inputOut1 =  "Control # (Computer Generated)"; @let inputOut2 = "Title/Subject"; @let
+      inputOut3 = "Receipient"; @let inputOut4 = "Status"; @let inputOut5 =
+      "Folder Name";
+
+      <div class="input-wrapper">
+        <input [disabled]="true" [readOnly]="true" formControlName="control" class="input" />
+        <label>{{inputOut1}}</label>
+      </div>
+      <div class="input-wrapper">
+        <input required formControlName="title" class="input" />
+        <label for="{{inputOut2}}">{{inputOut2}}</label>
+      </div>
+      <div class="input-wrapper">
+        <input required formControlName="recipient" class="input" />
+        <label for="{{inputOut3}}">{{inputOut3}}</label>
+      </div>
+      <div class="input-wrapper">
+        <input required formControlName="status" class="input" />
+        <label for="{{inputOut4}}">{{inputOut4}}</label>
+      </div>
+      <div class="input-wrapper">
+        <input required formControlName="folder" class="input" />
+        <label for="{{inputOut5}}">{{inputOut5}}</label>
+      </div>
 
       <div class="form-footer2">
         <div class="btn">
@@ -192,9 +239,7 @@
         </div>
       </div>
     </form>
-    }
-
-    @else {
+    } @else {
     <div class="widget">
       <span class="label">Today :</span>
       <span class="value">{{ today | date }}</span>

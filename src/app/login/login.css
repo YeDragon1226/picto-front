@@ -26,8 +26,8 @@
 
 @media (min-width: 1200px) {
   .logo {
-    height: 800px;
-    max-height: 800px;
+    height: 700px;
+    max-height: 700px;
   }
 }
 
@@ -44,8 +44,6 @@
   margin-right: 180px;
   padding: 40px;
   width: 400px;
-  max-width: 800px;
-  min-width: 400px;
   text-align: center;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
   border: 1px solid #3498db;

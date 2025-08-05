@@ -61,7 +61,7 @@ announcements: Announcements[] = [
     date: '2025-08-08',
     receiver: 'User 3',
     pinned: false,
-    reminder: 4,
+    reminder: 3,
   },
   {
     title: 'System Account Audit',
@@ -70,7 +70,7 @@ announcements: Announcements[] = [
     date: '2025-08-15',
     receiver: 'User 5',
     pinned: false,
-    reminder: 2,
+    reminder: 10,
   },
   {
     title: 'Office Meeting Schedule',

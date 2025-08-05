@@ -1,12 +1,10 @@
 import {
   Component,
-  computed,
-  effect,
   inject,
+  Renderer2,
   signal,
-  WritableSignal,
 } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule} from '@angular/common';
 import {
   FormControl,
   FormGroup,
@@ -15,9 +13,8 @@ import {
 } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { Announcements } from '../interface/announcements';
-import { Employee } from '../interface/employee';
 import { Datav2 } from '../data/data.v2';
-import { endWith, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +25,8 @@ import { endWith, Subscription } from 'rxjs';
 })
 export class Home {
   data = inject(Datav2);
+  renderer = inject(Renderer2);
+
   announcements = signal(this.data.announcements);
     private subscriptions = new Subscription();
 
@@ -59,10 +58,30 @@ export class Home {
     filter: new FormControl<string | null>('All'),
   });
 
+  incomingForm = new FormGroup({
+    control: new FormControl('123-256-789'),
+    type: new FormControl(''),
+    ref: new FormControl(''),
+    from: new FormControl(''),
+    title: new FormControl(''),
+    recipient: new FormControl(''),
+    status: new FormControl(''),
+    folder: new FormControl(''),
+  });
+
+  outgoingForm = new FormGroup({
+    control: new FormControl('987-654-321'),
+    title: new FormControl(''),
+    recipient: new FormControl(''),
+    status: new FormControl(''),
+    folder: new FormControl(''),
+  });
+
   added_employees: String[] = [];
 
   employees = signal(this.data.employees);
   reminders = signal(this.data.announcements);
+
   constructor() {
     const sub1 = this.announceForm.get('employee')?.valueChanges.subscribe((value) => {
       this.employees.set(this.data.employees);
@@ -197,6 +216,10 @@ export class Home {
     return date
       .minus({ days: this.announcements()[index].reminder })
       .toISODate();
+  }
+
+  onInputFocus() {
+    this.showSelect = true;
   }
 
   makeReminderNumber() {
