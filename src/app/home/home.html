@@ -85,7 +85,7 @@
     </form>
 
     } @else if (showReminderForm) {
-    <div class="reminder-card" style="margin-top: -10px">
+    <div class="reminder-card" >
       <div class="header">
         <h3>Reminders</h3>
         <form [formGroup]="reminderFilterForm">
@@ -152,8 +152,6 @@
         <label>{{inputIn1}}</label>
       </div>
 
-
-
       <div class="input-wrapper">
         <input required #inputInId2 formControlName="type" class="input" />
         <label>{{inputIn2}}</label>
@@ -200,6 +198,7 @@
         </div>
       </div>
     </form>
+
     } @else if (showOutgoingForm) {
     <form class="form-box2" [formGroup]="outgoingForm">
       <h3>Outgoing Files</h3>
@@ -239,6 +238,8 @@
         </div>
       </div>
     </form>
+
+
     } @else {
     <div class="widget">
       <span class="label">Today :</span>
