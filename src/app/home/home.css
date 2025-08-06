@@ -317,8 +317,7 @@
         }
       }
 
-      .form-footer,
-      .form-footer2 {
+      .form-footer {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -351,10 +350,34 @@
       }
 
       .form-footer2 {
+        display: flex;
         justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 8px;
 
+
+        .btn {
+          display: flex;
+          gap: 10px;
+          margin-right: 10px;
+          width: 100%;
+
+          .post-btn {
+            background-color: #278cff;
+            color: white;
+            flex: 1;
+          }
+
+          .cancel-btn {
+            background-color: #999;
+            color: white;
+            flex: 1;
+          }
         }
-      }
+        }
+    }
 
     .form-box2 {
       margin-top: -30px;
@@ -391,6 +414,8 @@
           color: #3498db;
           background-color: white;
         }
+
+
       }
     }
 

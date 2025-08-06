@@ -1,0 +1,224 @@
+@if (showAddUser()) {
+<div class="AddUserForm">
+  <form class="form-box">
+    <div class="header">
+      <h2>{{formTitle()}}</h2>
+      <button class="close-btn" (click)="showAddUser.set(false)">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <form action="" [formGroup]="employeeForm">
+      <div class="input-wrapper">
+        <input formControlName="name" required type="text" />
+        <label class="name">Name</label>
+      </div>
+
+      <div class="input-wrapper">
+        <input required type="text" formControlName="nickname" />
+        <label class="nickname">Username</label>
+      </div>
+
+      <div class="input-wrapper">
+        <input type="text" required formControlName="role" />
+        <label class="role">Designation</label>
+      </div>
+    </form>
+    <form action="" [formGroup]="permissionForm">
+      <h3>Permissions</h3>
+      <div class="permission-grid">
+        <h4 (click)="onPermissionHeadClick('user')" title="Select All">User Management</h4>
+        <h4 (click)="onPermissionHeadClick('report')" title="Select All">Reports</h4>
+        <h4 (click)="onPermissionHeadClick('reference')" title="Select All">Referentials</h4>
+        <h4 (click)="onPermissionHeadClick('announcement')" title="Select All">Announcements</h4>
+
+        <div class="checkbox-wrapper">
+
+            <label>Add</label>
+            <input type="checkbox" formControlName="user_add" />
+
+        </div>
+        <div class="checkbox-wrapper">
+          <label>Print</label>
+          <input type="checkbox" formControlName="report_print" />
+        </div>
+        <div class="checkbox-wrapper">
+          <label>Add</label>
+          <input type="checkbox" formControlName="reference_add" />
+        </div>
+        <div class="checkbox-wrapper">
+          <label>Add</label>
+          <input type="checkbox" formControlName="announcement_add" />
+        </div>
+
+        <div class="checkbox-wrapper">
+          <label>Edit</label>
+          <input type="checkbox" formControlName="user_edit" />
+        </div>
+        <div class="checkbox-wrapper">
+          <label>View</label>
+          <input type="checkbox" formControlName="report_view" />
+        </div>
+        <div class="checkbox-wrapper">
+          <label>Edit</label>
+          <input type="checkbox" formControlName="reference_edit"/>
+        </div>
+        <div class="checkbox-wrapper">
+          <label>Edit</label>
+          <input type="checkbox" formControlName="announcement_edit" />
+        </div>
+
+        <div class="checkbox-wrapper">
+          <label>Delete</label>
+          <input type="checkbox" formControlName="user_delete" />
+        </div>
+        <div class="checkbox-wrapper">
+          <label>Edit</label>
+          <input type="checkbox" formControlName="report_edit" />
+        </div>
+        <div class="checkbox-wrapper">
+          <label>Delete</label>
+          <input type="checkbox" formControlName="reference_delete" />
+        </div>
+        <div class="checkbox-wrapper">
+          <label>Delete</label>
+          <input type="checkbox" formControlName="announcement_delete" />
+        </div>
+      </div>
+    </form>
+
+    <div class="btn">
+      <button class="save-btn" (click)="addEmployee()">Submit</button>
+      <button class="cancel-btn" (click)="showAddUser.set(false)">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
+
+} @else {
+<div class="controls">
+  <div class="search-bar">
+    <form class="search-form" [formGroup]="searchForm">
+      <input
+        formControlName="search"
+        type="text"
+        class="search-input"
+        placeholder="Search users..."
+      />
+      <select class="input" formControlName="filter">
+        <option value="All">All</option>
+        @for (user of roles(); track $index) {
+        <option value="{{user}}">{{user}}</option>
+        }
+      </select>
+    </form>
+  </div>
+
+  <div class="actions">
+    <button class="add-btn" (click)="showAddUser.set(true)">
+      <i class="fas fa-plus"></i>
+    </button>
+  </div>
+</div>
+
+<div class="form-wrapper">
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Username</th>
+        <th>Designation</th>
+        <th class="permission-head">Permissions
+          <div class="first-sub">
+            <H5>User Management</H5>
+            <h5>Reports</h5>
+            <h5>Referentials</h5>
+            <h5>Announcements</h5>
+          </div>
+        </th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (employees().length === 0) {
+      <tr>
+        <td colspan="5">No users found.</td>
+      </tr>
+      } @for (user of employees(); track $index) {
+      <tr>
+        <td>{{ user.name }}</td>
+        <td>{{ user.nickname }}</td>
+        <td>{{ user.role }}</td>
+        <td class="permission">
+          <div class="column">
+            @if (user.permission?.includes("user_add")) {
+              <p>Add</p>
+            }
+            @if (user.permission?.includes("user_edit")) {
+              <p>Edit</p>
+            }
+            @if (user.permission?.includes("user_delete")) {
+              <p>Delete</p>
+            }
+            @if (!(user.permission?.includes("user"))) {
+              <p>NONE</p>
+            }
+          </div>
+          <div class="column">
+            @if (user.permission?.includes("report_print")) {
+              <p>Print</p>
+            }
+            @if (user.permission?.includes("report_view")) {
+              <p>View</p>
+            }
+            @if (user.permission?.includes("report_edit")) {
+              <p>Edit</p>
+            }
+            @if (!(user.permission?.includes("report"))) {
+              <p>NONE</p>
+            }
+          </div>
+          <div class="column">
+              @if (user.permission?.includes("reference_add")) {
+                <p>Add</p>
+              }
+              @if (user.permission?.includes("reference_edit")) {
+                <p>Edit</p>
+              }
+              @if (user.permission?.includes("reference_delete")) {
+                <p>Delete</p>
+              }
+              @if (!(user.permission?.includes("reference"))) {
+                <p>NONE</p>
+              }
+          </div>
+          <div class="column">
+            @if (user.permission?.includes("announcement_add")) {
+              <p>Add</p>
+            }
+            @if (user.permission?.includes("announcement_edit")) {
+              <p>Edit</p>
+            }
+            @if (user.permission?.includes("announcement_delete")) {
+              <p>Delete</p>
+            }
+            @if (!(user.permission?.includes("announcement"))) {
+              <p>NONE</p>
+            }
+          </div>
+
+        </td>
+        <td class="actions">
+          <button (click)="showEditForm(user.id)">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button (click)="deleteEmployee(user.id)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+}

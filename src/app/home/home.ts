@@ -112,7 +112,6 @@ export class Home {
     });
 
     const sub2 = this.reminderFilterForm.valueChanges.subscribe((value) => {
-      console.log(value.search);
       this.reminders.set(this.data.announcements);
       if (value.filter == 'All' && value.search == '') return;
       if (value.filter != 'All') {
